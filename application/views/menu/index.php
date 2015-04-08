@@ -26,7 +26,7 @@ $this->lang->load('menu', $language);?>
     <div class="col-md-6 pull-right">
         <a href="<?php echo base_url();?>users/reset/<?php echo $user_id; ?>" title="<?php echo lang('menu_banner_tip_reset');?>" data-toggle="modal" data-target="#frmChangeMyPwd"><span class="glyphicon glyphicon-lock"></span></a>
         &nbsp;
-        <?php echo lang('menu_banner_welcome');?> <?php echo $fullname;?>, <a href="<?php echo base_url();?>session/logout"><?php echo lang('menu_banner_logout');?></a>     
+        <?php echo lang('menu_banner_welcome');?> <?php echo $fullname;?>, <a href="<?php echo base_url();?>connection/logout"><?php echo lang('menu_banner_logout');?></a>     
     </div>
 </div>
 

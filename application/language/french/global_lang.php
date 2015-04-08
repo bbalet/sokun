@@ -17,16 +17,14 @@
  */
 
 $lang['global_msg_old_browser'] = 'Internet Explorer 8 et inférieur n\'est pas supporté. Veuillez utiliser IE9 ou Firefox, Chrome, etc.';
-
+$lang['global_msg_delete_confirmation'] = 'Cette procedure est irreversible. Êtes-vous sûr de vouloir supprimer?';
 $lang['global_msg_error_forbidden'] = 'L\'opération (%s) n\'est pas autorisée';
 $lang['global_msg_wait'] = 'Veuillez patienter';
+
+$lang['global_validate_mandatory_js_msg'] = '"Le champ " + fieldname + " est obligatoire."';
+
 $lang['global_date_format'] = 'd/m/Y';
 $lang['global_datetime_format'] = 'd/m/Y H:i';
-
-$lang['Requested'] = 'Demandée';
-$lang['Planned'] = 'Planifiée';
-$lang['Accepted'] = 'Acceptée';
-$lang['Rejected'] = 'Rejetée';
 
 $lang['footer_link_go_top'] = 'Aller en haut';
 $lang['footer_copyright_notice'] = '&copy; 2014 Les auteurs de Sokun &middot; Gestionnaire de cas de test';

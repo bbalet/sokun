@@ -88,6 +88,9 @@ class Auth {
 
             //campaigns
             case 'campaigns_list' :
+            case 'campaigns_create' :
+            case 'campaigns_edit' :
+            case 'campaigns_delete' :
             case 'campaigns_calendar' :
 
                 return true;

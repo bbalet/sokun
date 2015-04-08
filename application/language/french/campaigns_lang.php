@@ -20,3 +20,32 @@ $lang['campaigns_calendar_title'] = 'Calendrier des campagnes';
 $lang['campaigns_calendar_description'] = 'Cliquez sur un des évènements de manière à visualiser le détail de la campagne.';
 $lang['campaigns_calendar_button_back'] = 'Retour à la liste des campagnes';
 
+$lang['campaigns_index_title'] = 'Liste des campagnes';
+$lang['campaigns_index_thead_tip_edit'] = 'modifier';
+$lang['campaigns_index_thead_tip_delete'] = 'supprimer';
+$lang['campaigns_index_thead_link_tests'] = 'Tests';
+$lang['campaigns_index_thead_id'] = 'ID';
+$lang['campaigns_index_thead_name'] = 'Nom';
+$lang['campaigns_index_thead_start_date'] = 'Date début';
+$lang['campaigns_index_thead_end_date'] = 'Date fin';
+$lang['campaigns_index_thead_description'] = 'Description';
+$lang['campaigns_index_button_export'] = 'Exporter cette liste';
+$lang['campaigns_index_button_create'] = 'Créer une campagne';
+
+$lang['campaigns_delete_flash_msg_success'] = 'La campagne a été supprimée avec succès.';
+
+$lang['campaigns_export_title'] = 'Liste des campagnes';
+$lang['campaigns_export_thead_id'] = 'ID';
+$lang['campaigns_export_thead_name'] = 'Nom';
+$lang['campaigns_export_thead_start_date'] = 'Date début';
+$lang['campaigns_export_thead_end_date'] = 'Date fin';
+$lang['campaigns_export_thead_description'] = 'Description';
+
+$lang['campaigns_create_title'] = 'Créer une campagne';
+$lang['campaigns_create_field_name'] = 'Nom';
+$lang['campaigns_create_field_start_date'] = 'Date début';
+$lang['campaigns_create_field_end_date'] = 'Date fin';
+$lang['campaigns_create_field_description'] = 'Description';
+$lang['campaigns_create_button_cancel'] = 'Annuler';
+$lang['campaigns_create_button_create'] = 'Créer';
+$lang['campaigns_create_flash_msg_success'] = 'La campagne a été créée avec succès.';

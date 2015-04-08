@@ -16,13 +16,16 @@
  * along with Sokun.  If not, see <http://www.gnu.org/licenses/>.
  */
 ?>
-        <div id="push"></div>
-    </div><!-- /.container -->
-    <!-- FOOTER -->
-    <div class="row" id="footer">
-      <div class="col-md-4"><?php echo lang('footer_copyright_notice');?></div>
-      <div class="col-md-6 col-md-offset-2"><img src="<?php echo base_url();?>assets/images/logo.png" style="margin-top:-6px;">&nbsp;&nbsp;<b>Sokun</b>&nbsp;&nbsp;v0.1.0</div>
-      <div class="col-md-2">&nbsp;</div>
-    </div>
-</body>
-</html>
+<?php if($this->session->flashdata('msg')){ ?>
+<div class="alert alert-info" role="alert" id="flashbox">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+  <?php echo $this->session->flashdata('msg'); ?>
+</div>
+ 
+<script type="text/javascript">
+//Flash message
+$(function () {
+    $("#flashbox").alert();
+});
+</script>
+<?php } ?>

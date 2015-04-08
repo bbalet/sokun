@@ -68,9 +68,13 @@ $route['connection/logout'] = 'connection/logout';
 $route['connection/language'] = 'connection/language';
 $route['connection/forgetpassword'] = 'connection/forgetpassword';
 
+//Tests
 $route['tests'] = 'tests/index';
 
 //Campaigns
+$route['campaigns/index'] = 'campaigns/index';
+$route['campaigns/create'] = 'campaigns/create';
+$route['campaigns/(:num)/delete'] = 'campaigns/delete/$1';
 $route['campaigns/calendar'] = 'campaigns/calendar';
 $route['campaigns/calfeed'] = 'campaigns/calfeed';
 

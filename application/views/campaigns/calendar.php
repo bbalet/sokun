@@ -49,6 +49,8 @@ $this->lang->load('global', $language);?>
     </div>
 </div>
 
+<div class="row"><div class="col-md-12">&nbsp;</div></div>
+
 <link href="<?php echo base_url();?>assets/fullcalendar/fullcalendar.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar/lib/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar/fullcalendar.min.js"></script>
@@ -73,7 +75,7 @@ $(document).ready(function() {
             }    
         },
         eventClick: function(calEvent, jsEvent, view) {
-            document.location = '<?php echo base_url();?>campaigns/' + calEvent.id;
+            document.location = '<?php echo base_url();?>campaigns/' + calEvent.id + '/tests';
         }
     });
 });

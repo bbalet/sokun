@@ -26,6 +26,7 @@ class Campaigns extends CI_Controller {
         parent::__construct();
         setUserContext($this);
         $this->lang->load('campaigns', $this->language);
+        $this->lang->load('global', $this->language);
         $this->load->model('campaigns_model');
     }
     
@@ -37,12 +38,55 @@ class Campaigns extends CI_Controller {
         $this->auth->check_is_granted('campaigns_list');
         $data = getUserContext($this);
         $data['title'] = lang('campaigns_index_title');
+        $data['campaigns'] = $this->campaigns_model->get_campaigns();
+        $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('campaigns/index', $data);
         $this->load->view('templates/footer');   
     }
 
+    /**
+     * Create a campaign. Rules are checked on client side
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function create() {
+        $this->auth->check_is_granted('campaigns_create');
+        expires_now();
+        $data = getUserContext($this);
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('name', lang('campaigns_create_field_name'), 'required');
+        if ($this->form_validation->run() === FALSE) {
+            $data['title'] = lang('campaigns_create_title');
+            $this->load->view('templates/header', $data);
+            $this->load->view('menu/index', $data);
+            $this->load->view('campaigns/create');
+            $this->load->view('templates/footer');
+        } else {
+            $this->campaigns_model->set_campaigns();
+            $this->session->set_flashdata('msg', lang('campaigns_create_flash_msg_success'));
+            redirect('campaigns');
+        }
+    }
+    
+    /**
+     * Delete a campaign (if it exists)
+     * @param int $id Identifier of the campaign
+     */
+    public function delete($id) {
+        $this->auth->check_is_granted('campaigns_delete');
+        //Test if the campaign exists
+        $campaign = $this->campaigns_model->get_campaigns($id);
+        if (empty($campaign)) {
+            show_404();
+        } else {
+            $this->campaigns_model->delete_campaign($id);
+        }
+        $this->session->set_flashdata('msg', lang('campaigns_delete_flash_msg_success'));
+        redirect('campaigns');
+    }
+    
     /**
      * Calendar of campaigns
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -68,4 +112,50 @@ class Campaigns extends CI_Controller {
         $end = $this->input->get('end', TRUE);
         echo $this->campaigns_model->events($start, $end);
     }
+    
+    /**
+     * Export the list of all campaigns into an Excel file
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function export() {
+        expires_now();
+        $this->load->library('excel');
+        $this->excel->setActiveSheetIndex(0);
+        $this->excel->getActiveSheet()->setTitle(lang('campaigns_export_title'));
+        $this->excel->getActiveSheet()->setCellValue('A1', lang('campaigns_export_thead_id'));
+        $this->excel->getActiveSheet()->setCellValue('B1', lang('campaigns_export_thead_name'));
+        $this->excel->getActiveSheet()->setCellValue('C1', lang('campaigns_export_thead_start_date'));
+        $this->excel->getActiveSheet()->setCellValue('D1', lang('campaigns_export_thead_end_date'));
+        $this->excel->getActiveSheet()->setCellValue('E1', lang('campaigns_export_thead_description'));
+        $this->excel->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true);
+        $this->excel->getActiveSheet()->getStyle('A1:E1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $campaigns = $this->campaigns_model->get_campaigns();
+        $line = 2;
+        foreach ($campaigns as $campaign) {
+            $date = new DateTime($campaign['startdate']);
+            $startdate = $date->format(lang('global_date_format'));
+            $date = new DateTime($campaign['enddate']);
+            $enddate = $date->format(lang('global_date_format'));
+            $this->excel->getActiveSheet()->setCellValue('A' . $line, $campaign['id']);
+            $this->excel->getActiveSheet()->setCellValue('B' . $line, $campaign['name']);
+            $this->excel->getActiveSheet()->setCellValue('C' . $line, $startdate);
+            $this->excel->getActiveSheet()->setCellValue('D' . $line, $enddate);
+            $this->excel->getActiveSheet()->setCellValue('E' . $line, $campaign['description']);
+            $line++;
+        }
+        
+        //Autofit
+        foreach(range('A', 'E') as $colD) {
+            $this->excel->getActiveSheet()->getColumnDimension($colD)->setAutoSize(TRUE);
+        }
+
+        $filename = 'campaigns.xls';
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+        $objWriter->save('php://output');
+    }
+
 }

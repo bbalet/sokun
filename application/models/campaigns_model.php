@@ -49,11 +49,24 @@ class Campaigns_model extends CI_Model {
     public function set_campaigns() {
         $data = array(
             'name' => $this->input->post('name'),
-            'startdate' => $this->input->post('startdate'),
-            'enddate' => $this->input->post('enddate'),
+            'startdate' => $this->input->post('startdate')==""?NULL:$this->input->post('startdate'),
+            'enddate' => $this->input->post('enddate')==""?NULL:$this->input->post('enddate'),
             'description' => $this->input->post('description')
         );
         return $this->db->insert('campaigns', $data);
+    }
+    
+    /**
+     * Get the list of tests in a campaign
+     * @param int $campaign campaign identifier
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function get_tests($campaign) {
+        $this->db->select('tests.*');
+        $this->db->select('CONCAT_WS(\' \', users.firstname, users.lastname) as creator_name', FALSE);
+        $this->db->join('tests', 'tests.id = campaigntests.test');
+        $this->db->join('users', 'users.id = tests.creator');
+        $query = $this->db->get_where('campaigntests', array('campaign' => $id));
     }
     
     /**
@@ -62,9 +75,15 @@ class Campaigns_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function delete_campaign($id) {
-        $query = $this->db->delete('tests', array('id' => $id));
-        //Cascade delete steps
-        $this->delete_steps($id);
+        $query = $this->db->delete('campaigns', array('id' => $id));
+        //delete tests/campaign associations
+        $query = $this->db->delete('campaigntests', array('campaign' => $id));
+        /*
+        $tests = $this->get_tests($id);
+        $this->load->model('tests_model');
+        foreach ($tests as $test) {
+            $this->tests_model->delete_test($test['id']);
+        }*/
     }
     
     /**
