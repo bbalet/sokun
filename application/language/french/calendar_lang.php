@@ -16,9 +16,6 @@
  * along with sokun. If not, see <http://www.gnu.org/licenses/>.
  */
 
-$lang['calendar_room_title'] = 'Calendrier de la salle de réunion';
-$lang['calendar_room_button_back'] = 'Retour à la liste des salles de réunion';
-
 $lang['calendar_component_monthNames'] = '\'Janvier\',\'Février\',\'Mars\',\'Avril\',\'Mai\',\'Juin\',\'Juillet\',\'Août\',\'Septembre\',\'Octobre\',\'Novembre\',\'Décembre\'';
 $lang['calendar_component_monthNamesShort'] = '\'janv.\',\'févr.\',\'mars\',\'avr.\',\'mai\',\'juin\',\'juil.\',\'août\',\'sept.\',\'oct.\',\'nov.\',\'déc.\'';
 $lang['calendar_component_dayNames'] = '\'Dimanche\',\'Lundi\',\'Mardi\',\'Mercredi\',\'Jeudi\',\'Vendredi\',\'Samedi\'';

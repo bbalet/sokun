@@ -67,4 +67,30 @@ class Campaigns_model extends CI_Model {
         $this->delete_steps($id);
     }
     
+    /**
+     * Calendar feed for FullCalendar widget = List of campaigns
+     * @param string $start Unix timestamp / Start date displayed on calendar
+     * @param string $end Unix timestamp / End date displayed on calendar
+     * @return string JSON encoded list of full calendar events
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function events($start = "", $end = "") {
+        $this->db->where('( (startdate <= DATE(\'' . $start . '\') AND enddate >= DATE(\'' . $start . '\'))' .
+                                   ' OR (startdate >= DATE(\'' . $start . '\') AND enddate <= DATE(\'' . $end . '\')))');
+        $this->db->order_by('startdate', 'desc');
+        $this->db->limit(1024);  //Security limit
+        $events = $this->db->get('campaigns')->result();
+        
+        $jsonevents = array();
+        foreach ($events as $entry) {
+            $jsonevents[] = array(
+                'id' => $entry->id,
+                'title' => $entry->name,
+                'start' => $entry->startdate,
+                'allDay' => false,
+                'end' => $entry->enddate
+            );
+        }
+        return json_encode($jsonevents);
+    }
 }

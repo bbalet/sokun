@@ -16,6 +16,8 @@
  * along with sokun. If not, see <http://www.gnu.org/licenses/>.
  */
 
+$lang['global_msg_old_browser'] = 'Internet Explorer 8 and older browser are not supported. Please upgrade to IE9 or use Firefox, Chrome, etc.';
+
 $lang['global_msg_error_forbidden'] = 'Operation (%s) is not granted';
 $lang['global_msg_wait'] = 'Please wait';
 $lang['global_date_format'] = 'm/d/Y';

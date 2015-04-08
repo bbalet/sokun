@@ -61,7 +61,7 @@ $this->lang->load('menu', $language);?>
               </li>
             </ul>
             <?php } ?>
-            <ul class="nav navbar-nav">			  
+            <!--<ul class="nav navbar-nav">			  
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_assets_title');?> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -76,12 +76,13 @@ $this->lang->load('menu', $language);?>
                   <li><a href="<?php echo base_url();?>timeslots/validation"><?php echo lang('menu_validation_booking');?></a></li>
                 </ul>
               </li>
-            </ul>
+            </ul>//-->
             <ul class="nav navbar-nav">			  
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_booking_title');?> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_campaigns_title');?> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="<?php echo base_url();?>timeslots/me"><?php echo lang('menu_booking_requests');?></a></li>
+                  <li><a href="<?php echo base_url();?>campaigns"><?php echo lang('menu_campaigns_index');?></a></li>
+                  <li><a href="<?php echo base_url();?>campaigns/calendar"><?php echo lang('menu_campaigns_calendar');?></a></li>
                 </ul>
               </li>
             </ul>

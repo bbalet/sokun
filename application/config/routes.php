@@ -70,6 +70,10 @@ $route['connection/forgetpassword'] = 'connection/forgetpassword';
 
 $route['tests'] = 'tests/index';
 
+//Campaigns
+$route['campaigns/calendar'] = 'campaigns/calendar';
+$route['campaigns/calfeed'] = 'campaigns/calfeed';
+
 //REST API
 $route['api/tests'] = 'api/getTests';
 $route['api/tests/(:num)/steps'] = 'api/getSteps/$1';

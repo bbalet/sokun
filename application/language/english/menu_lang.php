@@ -36,5 +36,6 @@ $lang['menu_assets_locations'] = 'Locations';
 $lang['menu_validation_title'] = 'Validation';
 $lang['menu_validation_booking'] = 'Booking';
 
-$lang['menu_booking_title'] = 'Booking';
-$lang['menu_booking_requests'] = 'My bookings';
+$lang['menu_campaigns_title'] = 'Campaigns';
+$lang['menu_campaigns_index'] = 'List of campaigns';
+$lang['menu_campaigns_calendar'] = 'Calendar';

@@ -83,9 +83,16 @@ class Auth {
             //tests
             case 'tests_list' :
 
-return true;
+                return true;
                 break;
 
+            //campaigns
+            case 'campaigns_list' :
+            case 'campaigns_calendar' :
+
+                return true;
+                break;
+            
             default:
                 return false;
                 break;

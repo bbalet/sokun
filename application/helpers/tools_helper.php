@@ -1,19 +1,19 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
- * This file is part of Jorani.
+ * This file is part of Sokun.
  *
- * Jorani is free software: you can redistribute it and/or modify
+ * Sokun is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Jorani is distributed in the hope that it will be useful,
+ * Sokun is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Jorani.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Sokun.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -32,7 +32,6 @@ function setUserContext($controller)
                 $controller->session->userdata('lastname');
         $controller->is_manager = $controller->session->userdata('is_manager');
         $controller->is_admin = $controller->session->userdata('is_admin');
-        $controller->is_hr = $controller->session->userdata('is_hr');
         $controller->user_id = $controller->session->userdata('id');
         $controller->language = $controller->session->userdata('language');
         $controller->language_code = $controller->session->userdata('language_code');
@@ -49,7 +48,6 @@ function getUserContext($controller)
     $data['fullname'] = $controller->fullname;
     $data['is_manager'] = $controller->is_manager;
     $data['is_admin'] = $controller->is_admin;
-    $data['is_hr'] = $controller->is_hr;
     $data['user_id'] =  $controller->user_id;
     $data['language'] = $controller->session->userdata('language');
     $data['language_code'] =  $controller->session->userdata('language_code');
