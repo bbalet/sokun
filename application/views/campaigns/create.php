@@ -52,7 +52,7 @@
         <div class="form-group">
             <label for="description" class="col-sm-2 control-label"><?php echo lang('campaigns_create_field_description');?></label>
             <div class="col-sm-10">
-                <textarea type="text" class="form-control" name="description" id="description" placeholder="<?php echo lang('campaigns_create_field_description');?>"></textarea>
+                <textarea type="text" name="description" id="description"></textarea>
             </div>
         </div>
 
@@ -76,6 +76,10 @@ if ($language_code != 'en') { ?>
 <script src="<?php echo base_url();?>assets/js/i18n/jquery.ui.datepicker-<?php echo $language_code;?>.js"></script>
 <?php } ?>
 <script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+
+<link rel="stylesheet" href="<?php echo base_url();?>assets/ckeditor/skins/moono/editor.css">
+<link rel="stylesheet" href="<?php echo base_url();?>assets/ckeditor/skins/moono/dialog.css">
+<script src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">    
 function validate_form() {
     result = false;
@@ -111,6 +115,26 @@ $(function () {
                 $( "#viz_startdate" ).datepicker( "option", "maxDate", selectedDate );
               }
     }, $.datepicker.regional['<?php echo $language_code;?>']);
+    
+    editor = CKEDITOR.replace( 'description', {
+        language: '<?php echo $language_code;?>',
+        toolbarGroups : [
+	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
+	{ name: 'forms' },
+	'/',
+	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+	{ name: 'links' },
+	{ name: 'insert' },
+	'/',
+	{ name: 'styles' },
+	{ name: 'colors' },
+	{ name: 'tools' },
+	{ name: 'others' }
+            ]
+    });
     
     $("#frmCampaignForm").submit(function(e) {
         if (validate_form()) {

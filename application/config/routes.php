@@ -74,6 +74,7 @@ $route['tests'] = 'tests/index';
 //Campaigns
 $route['campaigns/index'] = 'campaigns/index';
 $route['campaigns/create'] = 'campaigns/create';
+$route['campaigns/(:num)/edit'] = 'campaigns/edit/$1';
 $route['campaigns/(:num)/delete'] = 'campaigns/delete/$1';
 $route['campaigns/calendar'] = 'campaigns/calendar';
 $route['campaigns/calfeed'] = 'campaigns/calfeed';

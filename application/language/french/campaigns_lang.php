@@ -49,3 +49,12 @@ $lang['campaigns_create_field_description'] = 'Description';
 $lang['campaigns_create_button_cancel'] = 'Annuler';
 $lang['campaigns_create_button_create'] = 'Créer';
 $lang['campaigns_create_flash_msg_success'] = 'La campagne a été créée avec succès.';
+
+$lang['campaigns_edit_title'] = 'Modifier une campagne';
+$lang['campaigns_edit_field_name'] = 'Nom';
+$lang['campaigns_edit_field_start_date'] = 'Date début';
+$lang['campaigns_edit_field_end_date'] = 'Date fin';
+$lang['campaigns_edit_field_description'] = 'Description';
+$lang['campaigns_edit_button_cancel'] = 'Annuler';
+$lang['campaigns_edit_button_update'] = 'Modifier';
+$lang['campaigns_edit_flash_msg_success'] = 'La campagne a été modifiée avec succès.';

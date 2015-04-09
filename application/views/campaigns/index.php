@@ -45,7 +45,7 @@ $this->lang->load('datatable', $language);
                 $startdate = "";
                 $tmpStartDate="";
             }
-            if ($campaign['startdate'] != NULL) {
+            if ($campaign['enddate'] != NULL) {
                 $date = new DateTime($campaign['enddate']);
                 $tmpEndDate = $date->getTimestamp();
                 $enddate = $date->format(lang('global_date_format'));

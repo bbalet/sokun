@@ -71,6 +71,35 @@ class Campaigns extends CI_Controller {
     }
     
     /**
+     * Update a campaign. Rules are checked on client side
+     * @param int $id Identifier of the campaign
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function edit($id) {
+        $this->auth->check_is_granted('campaigns_edit');
+        expires_now();
+        $data = getUserContext($this);
+        $data['campaign'] = $this->campaigns_model->get_campaigns($id);
+        if (empty($data['campaign'])) {
+            show_404();
+        }
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('name', lang('campaigns_edit_field_name'), 'required');
+        if ($this->form_validation->run() === FALSE) {
+            $data['title'] = lang('campaigns_edit_title');
+            $this->load->view('templates/header', $data);
+            $this->load->view('menu/index', $data);
+            $this->load->view('campaigns/edit');
+            $this->load->view('templates/footer');
+        } else {
+            $this->campaigns_model->update_campaigns($id);
+            $this->session->set_flashdata('msg', lang('campaigns_edit_flash_msg_success'));
+            redirect('campaigns');
+        }
+    }
+    
+    /**
      * Delete a campaign (if it exists)
      * @param int $id Identifier of the campaign
      */

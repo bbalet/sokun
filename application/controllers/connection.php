@@ -45,12 +45,12 @@ class Connection extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function login() {
-        $data['title'] = lang('session_login_title');
+        $data['title'] = lang('connection_login_title');
         $this->load->helper('form');
         $this->load->library('form_validation');
         //Note that we don't receive the password as a clear string
-        $this->form_validation->set_rules('login', lang('session_login_field_login'), 'required');
-        $this->form_validation->set_rules('password', lang('session_login_field_password'), 'required');
+        $this->form_validation->set_rules('login', lang('connection_login_field_login'), 'required');
+        $this->form_validation->set_rules('password', lang('connection_login_field_password'), 'required');
 
         if ($this->form_validation->run() === FALSE) {
             $data['language'] = $this->session->userdata('language');
@@ -67,7 +67,7 @@ class Connection extends CI_Controller {
             
             if ($loggedin == FALSE) {
                 log_message('error', '{controllers/session/login} Invalid login id or password for user=' . $this->input->post('login'));
-                $this->session->set_flashdata('msg', lang('session_login_flash_bad_credentials'));
+                $this->session->set_flashdata('msg', lang('connection_login_flash_bad_credentials'));
                 $data['language'] = $this->session->userdata('language');
                 $data['language_code'] = $this->session->userdata('language_code');
                 $this->load->view('templates/header', $data);

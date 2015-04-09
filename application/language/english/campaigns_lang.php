@@ -32,7 +32,7 @@ $lang['campaigns_index_thead_description'] = 'Description';
 $lang['campaigns_index_button_export'] = 'Export this list';
 $lang['campaigns_index_button_create'] = 'Create a campaign';
 
-$lang['campaigns_delete_flash_msg_success'] = 'The campaign has been succesfully deleted';
+$lang['campaigns_delete_flash_msg_success'] = 'The campaign has been succesfully deleted.';
 
 $lang['campaigns_export_title'] = 'List of campaigns';
 $lang['campaigns_export_thead_id'] = 'ID';
@@ -48,5 +48,13 @@ $lang['campaigns_create_field_end_date'] = 'End Date';
 $lang['campaigns_create_field_description'] = 'Description';
 $lang['campaigns_create_button_cancel'] = 'Cancel';
 $lang['campaigns_create_button_create'] = 'Create';
-$lang['campaigns_create_flash_msg_success'] = 'The campaign has been succesfully created';
+$lang['campaigns_create_flash_msg_success'] = 'The campaign has been succesfully created.';
 
+$lang['campaigns_edit_title'] = 'Update a campaign';
+$lang['campaigns_edit_field_name'] = 'Name';
+$lang['campaigns_edit_field_start_date'] = 'Start Date';
+$lang['campaigns_edit_field_end_date'] = 'End Date';
+$lang['campaigns_edit_field_description'] = 'Description';
+$lang['campaigns_edit_button_cancel'] = 'Cancel';
+$lang['campaigns_edit_button_update'] = 'Update';
+$lang['campaigns_edit_flash_msg_success'] = 'The campaign has been succesfully updated.';

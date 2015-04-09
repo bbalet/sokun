@@ -57,6 +57,23 @@ class Campaigns_model extends CI_Model {
     }
     
     /**
+     * Update a campaign with data coming from an HTML form
+     * @param int $id Identifer of the campaign
+     * @return int number of affected rows
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function update_campaigns($id) {
+        $data = array(
+            'name' => $this->input->post('name'),
+            'startdate' => $this->input->post('startdate')==""?NULL:$this->input->post('startdate'),
+            'enddate' => $this->input->post('enddate')==""?NULL:$this->input->post('enddate'),
+            'description' => $this->input->post('description')
+        );
+        $this->db->where('id', $id);
+        return $this->db->update('campaigns', $data);
+    }
+    
+    /**
      * Get the list of tests in a campaign
      * @param int $campaign campaign identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -78,12 +95,6 @@ class Campaigns_model extends CI_Model {
         $query = $this->db->delete('campaigns', array('id' => $id));
         //delete tests/campaign associations
         $query = $this->db->delete('campaigntests', array('campaign' => $id));
-        /*
-        $tests = $this->get_tests($id);
-        $this->load->model('tests_model');
-        foreach ($tests as $test) {
-            $this->tests_model->delete_test($test['id']);
-        }*/
     }
     
     /**
