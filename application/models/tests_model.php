@@ -60,6 +60,21 @@ class Tests_model extends CI_Model {
     }
     
     /**
+     * Update a test with data coming from an HTML form
+     * @param int $id Identifer of the test
+     * @return int number of affected rows
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function update_tests($id) {
+        $data = array(
+            'name' => $this->input->post('name'),
+            'description' => $this->input->post('description')
+        );
+        $this->db->where('id', $id);
+        return $this->db->update('tests', $data);
+    }
+    
+    /**
      * Delete a test and its steps from the database
      * @param int $id test identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>

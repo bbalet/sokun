@@ -26,6 +26,7 @@ class Tests extends CI_Controller {
         parent::__construct();
         setUserContext($this);
         $this->lang->load('tests', $this->language);
+        $this->lang->load('global', $this->language);
         $this->load->model('tests_model');
     }
 
@@ -56,6 +57,59 @@ class Tests extends CI_Controller {
         $data['tests'] = $this->tests_model->get_tests();
         $data['title'] = lang('tests_select_title');
         $this->load->view('tests/select', $data);
+    }
+    
+    /**
+     * Create a test. Rules are checked on client side
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function create() {
+        $this->auth->check_is_granted('tests_create');
+        expires_now();
+        $data = getUserContext($this);
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('name', lang('tests_create_field_name'), 'required');
+        if ($this->form_validation->run() === FALSE) {
+            $data['title'] = lang('tests_create_title');
+            $this->load->view('templates/header', $data);
+            $this->load->view('menu/index', $data);
+            $this->load->view('tests/create');
+            $this->load->view('templates/footer');
+        } else {
+            $this->tests_model->set_tests($this->user_id);
+            $this->session->set_flashdata('msg', lang('tests_create_flash_msg_success'));
+            redirect('tests');
+        }
+    }
+    
+    /**
+     * Update a test. Rules are checked on client side
+     * @param int $id Identifier of the test
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function edit($id) {
+        $this->auth->check_is_granted('tests_edit');
+        expires_now();
+        $data = getUserContext($this);
+        $data['test'] = $this->tests_model->get_tests($id);
+        if (empty($data['test'])) {
+            show_404();
+        }
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('name', lang('tests_edit_field_name'), 'required');
+        if ($this->form_validation->run() === FALSE) {
+            $data['title'] = lang('tests_edit_title');
+            $this->load->view('templates/header', $data);
+            $this->load->view('menu/index', $data);
+            $this->load->view('tests/edit');
+            $this->load->view('templates/footer');
+        } else {
+            $this->tests_model->update_tests($id);
+            $this->session->set_flashdata('msg', lang('tests_edit_flash_msg_success'));
+            redirect('tests');
+        }
     }
     
     /**

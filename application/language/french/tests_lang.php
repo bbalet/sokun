@@ -27,6 +27,20 @@ $lang['tests_index_thead_description'] = 'Description';
 $lang['tests_index_button_export'] = 'Exporter cette liste';
 $lang['tests_index_button_create'] = 'Nouvelle fiche';
 
+$lang['tests_create_title'] = 'Créer une fiche de test';
+$lang['tests_create_field_name'] = 'Nom';
+$lang['tests_create_field_description'] = 'Description';
+$lang['tests_create_button_cancel'] = 'Annuler';
+$lang['tests_create_button_create'] = 'Créer';
+$lang['tests_create_flash_msg_success'] = 'Le test a été créé avec succès.';
+
+$lang['tests_edit_title'] = 'Modifier une fiche de test';
+$lang['tests_edit_field_name'] = 'Nom';
+$lang['tests_edit_field_description'] = 'Description';
+$lang['tests_edit_button_cancel'] = 'Annuler';
+$lang['tests_edit_button_update'] = 'Modifier';
+$lang['tests_edit_flash_msg_success'] = 'Le test a été modifié avec succès.';
+
 $lang['tests_delete_flash_msg_success'] = 'Le test a été supprimé avec succès.';
 
 $lang['tests_export_title'] = 'Fiches de test';

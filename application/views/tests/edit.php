@@ -19,32 +19,32 @@
 <div class="row-fluid">
     <div class="col-md-12">
 
-        <h1><?php echo lang('tests_create_title');?></h1>
+        <h1><?php echo lang('tests_edit_title');?></h1>
         
         <?php echo validation_errors(); ?>
 
         <?php $attributes = array('id' => 'frmTestForm', 'class' => 'form-horizontal');
-        echo form_open('tests/create', $attributes) ?>
+        echo form_open('tests/' . $test['id'] . '/edit', $attributes) ?>
         
         <div class="form-group">
-            <label for="name" class="col-sm-2 control-label"><?php echo lang('tests_create_field_name');?></label>
+            <label for="name" class="col-sm-2 control-label"><?php echo lang('tests_edit_field_name');?></label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="name" id="name" placeholder="<?php echo lang('tests_create_field_name');?>" autofocus required />
+                <input type="text" class="form-control" name="name" id="name" placeholder="<?php echo lang('tests_edit_field_name');?>" value="<?php echo $test['name'] ?>" autofocus required />
             </div>
         </div>
         
         <div class="form-group">
-            <label for="description" class="col-sm-2 control-label"><?php echo lang('tests_create_field_description');?></label>
+            <label for="description" class="col-sm-2 control-label"><?php echo lang('tests_edit_field_description');?></label>
             <div class="col-sm-10">
-                <textarea type="text" name="description" id="description"></textarea>
+                <textarea type="text" name="description" id="description"><?php echo $test['description'] ?></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk glyphicon-white"></span>&nbsp;<?php echo lang('tests_create_button_create');?></button>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk glyphicon-white"></span>&nbsp;<?php echo lang('tests_edit_button_update');?></button>
                 &nbsp;
-                <a href="<?php echo base_url();?>tests" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove glyphicon-white"></span>&nbsp;<?php echo lang('tests_create_button_cancel');?></a>
+                <a href="<?php echo base_url();?>tests" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove glyphicon-white"></span>&nbsp;<?php echo lang('tests_edit_button_cancel');?></a>
             </div>
         </div>
         </form>
@@ -54,6 +54,11 @@
 <div class="row"><div class="col-md-12">&nbsp;</div></div>
 
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/jquery-ui.min.css">
+<script src="<?php echo base_url();?>assets/js/jquery-ui.min.js"></script>
+<?php //Prevent HTTP-404 when localization isn't needed
+if ($language_code != 'en') { ?>
+<script src="<?php echo base_url();?>assets/js/i18n/jquery.ui.datepicker-<?php echo $language_code;?>.js"></script>
+<?php } ?>
 <script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 
 <link rel="stylesheet" href="<?php echo base_url();?>assets/ckeditor/skins/moono/editor.css">
@@ -63,7 +68,7 @@
 function validate_form() {
     result = false;
     var fieldname = "";
-    if ($('#name').val() == "") fieldname = "<?php echo lang('tests_create_field_name');?>";
+    if ($('#name').val() == "") fieldname = "<?php echo lang('tests_edit_field_name');?>";
     if (fieldname == "") {
         return true;
     } else {
@@ -73,8 +78,6 @@ function validate_form() {
 }
 
 $(function () {
-
-    
     editor = CKEDITOR.replace( 'description', {
         language: '<?php echo $language_code;?>',
         toolbarGroups : [
@@ -105,4 +108,3 @@ $(function () {
     });
 });
 </script>
-

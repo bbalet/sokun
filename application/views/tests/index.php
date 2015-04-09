@@ -40,7 +40,7 @@ $this->lang->load('datatable', $language);
                 <td data-order="<?php echo $test['id']; ?>">
                     <?php echo $test['id'] ?>
                     <div class="pull-right">
-                        <a href="<?php echo base_url();?>users/edit/<?php echo $test['id'] ?>" title="<?php echo lang('tests_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="<?php echo base_url();?>tests/edit/<?php echo $test['id'] ?>" title="<?php echo lang('tests_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
                         &nbsp;
                         <a href="#" class="confirm-delete" data-id="<?php echo $test['id'];?>" title="<?php echo lang('tests_index_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
                         &nbsp;
