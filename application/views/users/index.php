@@ -57,8 +57,6 @@ $(document).ready(function() {
             <a href="<?php echo base_url();?>users/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_view');?>"><?php echo $users_item['id'] ?></a>
             &nbsp;
             <div class="pull-right">
-                <a href="<?php echo base_url();?>users/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_view');?>"><span class="glyphicon glyphicon-eye-open"></span></a>
-                &nbsp;
                 <a href="<?php echo base_url();?>users/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
                 &nbsp;
                 <a href="#" class="confirm-delete" data-id="<?php echo $users_item['id'];?>" title="<?php echo lang('users_index_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
@@ -93,44 +91,39 @@ $(document).ready(function() {
 <link href="<?php echo base_url();?>assets/datatable/css/jquery.dataTables.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/js/jquery.dataTables.min.js"></script>
 
-<div id="frmConfirmDelete" class="modal hide fade">
-    <div class="modal-header">
-        <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="close">&times;</a>
-         <h3><?php echo lang('users_index_popup_delete_title');?></h3>
+<div id="frmConfirmDelete" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="close">&times;</a>
+             <h3><?php echo lang('users_index_popup_delete_title');?></h3>
+        </div>
+        <div class="modal-body">
+            <p><?php echo lang('users_index_popup_delete_message');?></p>
+            <p><?php echo lang('users_index_popup_delete_question');?></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn danger" id="lnkDeleteUser"><?php echo lang('users_index_popup_delete_button_yes');?></a>
+            <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="btn secondary"><?php echo lang('users_index_popup_delete_button_no');?></a>
+        </div>
     </div>
-    <div class="modal-body">
-        <p><?php echo lang('users_index_popup_delete_message');?></p>
-        <p><?php echo lang('users_index_popup_delete_question');?></p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn danger" id="lnkDeleteUser"><?php echo lang('users_index_popup_delete_button_yes');?></a>
-        <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="btn secondary"><?php echo lang('users_index_popup_delete_button_no');?></a>
-    </div>
+  </div>
 </div>
 
-<div id="frmResetPwd" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-         <h3><?php echo lang('users_index_popup_password_title');?></h3>
-    </div>
-    <div class="modal-body">
-        <spanmg src="<?php echo base_url();?>assets/images/loading.gif">
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal"><?php echo lang('users_index_popup_password_button_cancel');?></button>
-    </div>
-</div>
-
-<div id="frmImportUsers" class="modal hide fade">
-    <div class="modal-header">
-        <a href="#" onclick="$('#frmImportUsers').modal('hide');" class="close">&times;</a>
-         <h3><?php echo lang('users_index_button_export');?></h3>
-    </div>
-    <div class="modal-body">
-        <spanmg src="<?php echo base_url();?>assets/images/loading.gif">
-    </div>
-    <div class="modal-footer">
-        <a href="#" onclick="$('#frmImportUsers').modal('hide');" class="btn secondary"><?php echo lang('users_index_button_export');?></a>
+<div id="frmResetPwd" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h3><?php echo lang('users_index_popup_password_title');?></h3>
+            </div>
+            <div class="modal-body">
+                <img src="<?php echo base_url();?>assets/images/loading.gif">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal"><?php echo lang('users_index_popup_password_button_cancel');?></button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -184,9 +177,6 @@ $(document).ready(function() {
         $(this).removeData('modal');
     });
     $('#frmResetPwd').on('hidden', function() {
-        $(this).removeData('modal');
-    });
-    $('#frmImportUsers').on('hidden', function() {
         $(this).removeData('modal');
     });
 });

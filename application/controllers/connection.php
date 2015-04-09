@@ -55,6 +55,7 @@ class Connection extends CI_Controller {
         if ($this->form_validation->run() === FALSE) {
             $data['language'] = $this->session->userdata('language');
             $data['language_code'] = $this->session->userdata('language_code');
+            $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
             $this->load->view('templates/header', $data);
             $this->load->view('connection/login', $data);
             $this->load->view('templates/footer');
@@ -70,6 +71,7 @@ class Connection extends CI_Controller {
                 $this->session->set_flashdata('msg', lang('connection_login_flash_bad_credentials'));
                 $data['language'] = $this->session->userdata('language');
                 $data['language_code'] = $this->session->userdata('language_code');
+                $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
                 $this->load->view('templates/header', $data);
                 $this->load->view('connection/login', $data);
                 $this->load->view('templates/footer');

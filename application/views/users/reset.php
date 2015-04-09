@@ -19,13 +19,14 @@
 CI_Controller::get_instance()->load->helper('language');
 $this->lang->load('users', $language);?>
 <?php
-$attributes = array('id' => 'target');
+$attributes = array('id' => 'target', 'class' => 'form-inline');
 echo form_open('users/reset/' . $target_user_id, $attributes); ?>
 
-    <label for="password"><?php echo lang('users_reset_field_password');?></label>
-    <input type="password" name="password" id="password" required /><br />
-    <br />
-    <button id="send" class="btn btn-primary"><?php echo lang('users_reset_button_reset');?></button>
+    <div class="form-group">
+        <label for="password"><?php echo lang('users_reset_field_password');?></label>
+        <input type="password" class="form-control" name="password" id="password" required /><br />
+    </div>
+    <button id="send" class="btn btn-warning"><?php echo lang('users_reset_button_reset');?></button>
 </form>
 <script type="text/javascript">
     $(function () {

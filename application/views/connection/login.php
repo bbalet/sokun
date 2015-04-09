@@ -23,18 +23,7 @@
 
 <h2><?php echo lang('connection_login_title');?></h2>
 
-<?php if($this->session->flashdata('msg')){ ?>
-<div class="alert fade in" id="flashbox">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <?php echo $this->session->flashdata('msg'); ?>
-</div>
-<script type="text/javascript">
-//Flash message
-$(document).ready(function() {
-    $(".alert").alert();
-});
-</script>
-<?php } ?>
+<?php echo $flash_partial_view;?>
 
 <?php echo validation_errors(); ?>
 

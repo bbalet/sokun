@@ -17,74 +17,101 @@
  */
 
 $CI =& get_instance();
-$CI->load->library('polyglot');
-$CI->load->helper('language');
-$this->lang->load('users', $language);
-$this->lang->load('global', $language);?>
+$CI->load->library('polyglot');?>
 
-<h2><?php echo lang('users_create_title');?></h2>
+<div class="row-fluid">
+    <div class="col-md-12">
+
+<h1><?php echo lang('users_create_title');?></h1>
 
 <?php echo validation_errors(); ?>
 
 <?php
-$attributes = array('id' => 'target');
+$attributes = array('id' => 'target', 'class' => 'form-horizontal');
 echo form_open('users/create', $attributes); ?>
     
-    <label for="firstname"><?php echo lang('users_create_field_firstname');?></label>
-    <input type="text" name="firstname" id="firstname" required /><br />
+       <div class="form-group">
+            <label for="firstname" class="col-sm-2 control-label"><?php echo lang('users_create_field_firstname');?></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="firstname" id="firstname" required />
+            </div>
+        </div>
 
-    <label for="lastname"><?php echo lang('users_create_field_lastname');?></label>
-    <input type="text" name="lastname" id="lastname" required /><br />
+        <div class="form-group">
+            <label for="lastname" class="col-sm-2 control-label"><?php echo lang('users_create_field_lastname');?></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="lastname" id="lastname" required />
+            </div>
+        </div>
 
-    <label for="role[]"><?php echo lang('users_create_field_role');?></label>
-    <select name="role[]" multiple="multiple" size="2" required>
-    <?php foreach ($roles as $roles_item): ?>
-        <option value="<?php echo $roles_item['id'] ?>" <?php if ($roles_item['id'] == 2) echo "selected" ?>><?php echo $roles_item['name'] ?></option>
-    <?php endforeach ?>
-    </select>
+        <div class="form-group">
+            <label for="login" class="col-sm-2 control-label"><?php echo lang('users_create_field_login');?></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="login" id="login" required />
+                <div class="alert alert-info" role="alert" id="lblLoginAlert">
+                    <button type="button" class="close" onclick="$('#lblLoginAlert').hide();">&times;</button>
+                    <?php echo lang('users_create_flash_msg_error');?>
+                </div>
+            </div>
+        </div>
 
-    <label for="login"><?php echo lang('users_create_field_login');?></label>
-    <input type="text" name="login" id="login" required /><br />
-    <div class="alert hide alert-error" id="lblLoginAlert">
-        <button type="button" class="close" onclick="$('#lblLoginAlert').hide();">&times;</button>
-        <?php echo lang('users_create_flash_msg_error');?>
+        <div class="form-group">
+            <label for="role[]" class="col-sm-2 control-label"><?php echo lang('users_create_field_role');?></label>
+            <div class="col-sm-10">
+                <select class="form-control" name="role[]" multiple="multiple" size="2" required>
+                <?php foreach ($roles as $roles_item): ?>
+                    <option value="<?php echo $roles_item['id'] ?>" <?php if ($roles_item['id'] == 2) echo "selected" ?>><?php echo $roles_item['name'] ?></option>
+                <?php endforeach ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label"><?php echo lang('users_create_field_email');?></label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="email" name="email" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="language" class="col-sm-2 control-label"><?php echo lang('users_create_field_language');?></label>
+            <div class="col-sm-10">
+                <select class="form-control" name="language">
+                     <?php 
+                     $languages = $CI->polyglot->nativelanguages($this->config->item('languages'));
+                     $default_lang = $CI->polyglot->language2code($this->config->item('language'));
+                     foreach ($languages as $code => $language): ?>
+                    <option value="<?php echo $code; ?>" <?php if ($code == $default_lang) echo "selected" ?>><?php echo $language; ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label"><?php echo lang('users_create_field_password');?></label>
+            <div class="col-sm-8">
+                    <input class="form-control" type="password" name="password" id="password" required />
+            </div>
+            <div class="col-sm-2">
+                    <a class="btn btn-default" id="cmdGeneratePassword">
+                        <span class="glyphicon glyphicon-refresh"></span>&nbsp;<?php echo lang('users_create_button_generate_password');?>
+                    </a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="send" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk glyphicon-white"></span>&nbsp;<?php echo lang('users_create_button_create');?></button>
+                &nbsp;
+                <a href="<?php echo base_url(); ?>users" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove glyphicon-white"></span>&nbsp;<?php echo lang('users_create_button_cancel');?></a>
+             </div>
+        </div>
+    </form>
     </div>
+</div>
 
-    <label for="email"><?php echo lang('users_create_field_email');?></label>
-    <input type="email" id="email" name="email" required /><br />
-    
-    <label for="language"><?php echo lang('users_create_field_language');?></label>
-    <select name="language">
-         <?php 
-         $languages = $CI->polyglot->nativelanguages($this->config->item('languages'));
-         $default_lang = $CI->polyglot->language2code($this->config->item('language'));
-         foreach ($languages as $code => $language): ?>
-        <option value="<?php echo $code; ?>" <?php if ($code == $default_lang) echo "selected" ?>><?php echo $language; ?></option>
-        <?php endforeach ?>
-    </select>
+<div class="row"><div class="col-md-12">&nbsp;</div></div>
 
-    <label for="password"><?php echo lang('users_create_field_password');?></label>
-    <input type="password" name="password" id="password" required />&nbsp;
-    <a class="btn" id="cmdGeneratePassword">
-        <i class="glyphicon-refresh"></i>&nbsp;<?php echo lang('users_create_button_generate_password');?>
-    </a>
-    
-</form>
-
-    <br />
-    
-    <button id="send" class="btn btn-primary"><i class="glyphicon-ok glyphicon-white"></i>&nbsp;<?php echo lang('users_create_button_create');?></button>
-    &nbsp;
-    <a href="<?php echo base_url(); ?>users" class="btn btn-danger"><i class="glyphicon-remove glyphicon-white"></i>&nbsp;<?php echo lang('users_create_button_cancel');?></a>
-
-    <br /><br />
-
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/flick/jquery-ui-1.10.4.custom.min.css">
-<script src="<?php echo base_url();?>assets/js/jquery-ui-1.10.4.custom.min.js"></script>
-<?php //Prevent HTTP-404 when localization isn't needed
-if ($language_code != 'en') { ?>
-<script src="<?php echo base_url();?>assets/js/i18n/jquery.ui.datepicker-<?php echo $language_code;?>.js"></script>
-<?php } ?>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
 
@@ -131,7 +158,7 @@ function password_generator(len) {
 }
     
     $(function () {
-        $("#lblLoginAlert").alert();
+        $("#lblLoginAlert").hide();
         
         $("#cmdGeneratePassword").click(function() {
             $("#password").val(password_generator(<?php echo $this->config->item('password_length');?>));

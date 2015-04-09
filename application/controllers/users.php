@@ -1,7 +1,4 @@
-<?php
-if (!defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
  * This file is part of sokun.
@@ -28,43 +25,20 @@ class Users extends CI_Controller {
      */
     public function __construct() {
         parent::__construct();
-        //Check if user is connected
-        if (!$this->session->userdata('logged_in')) {
-            $this->session->set_userdata('last_page', current_url());
-            redirect('session/login');
-        }
+        setUserContext($this);
         $this->load->model('users_model');
-        $this->fullname = $this->session->userdata('firstname') . ' ' . $this->session->userdata('lastname');
-        $this->is_admin = $this->session->userdata('is_admin');
-        $this->user_id = $this->session->userdata('id');
-        $this->language = $this->session->userdata('language');
-        $this->language_code = $this->session->userdata('language_code');
-        $this->load->helper('language');
         $this->lang->load('users', $this->language);
+        $this->lang->load('global', $this->language);
     }
-
-    /**
-     * Prepare an array containing information about the current user
-     * @return array data to be passed to the view
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    private function getUserContext() {
-        $data['fullname'] = $this->fullname;
-        $data['is_admin'] = $this->is_admin;
-        $data['user_id'] = $this->user_id;
-        $data['language'] = $this->language;
-        $data['language_code'] =  $this->language_code;
-        return $data;
-    }
-
+    
     /**
      * Display the list of all users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function index() {
         $this->auth->check_is_granted('list_users');
-        $this->expires_now();
-        $data = $this->getUserContext();
+        expires_now();
+        $data = getUserContext($this);
         $data['users'] = $this->users_model->get_users();
         $data['title'] = lang('users_index_title');
         $this->load->view('templates/header', $data);
@@ -79,33 +53,11 @@ class Users extends CI_Controller {
      */
     public function employees() {
         $this->auth->check_is_granted('list_users');
-        $this->expires_now();
-        $data = $this->getUserContext();
+        expires_now();
+        $data = getUserContext($this);
         $data['employees'] = $this->users_model->get_all_employees();
         $data['title'] = lang('employees_index_title');
         $this->load->view('users/employees', $data);
-    }
-    
-    /**
-     * Display details of a given user
-     * @param int $id User identifier
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function view($id) {
-        $this->auth->check_is_granted('view_user');
-        $this->expires_now();
-        $data = $this->getUserContext();
-        $data['user'] = $this->users_model->get_users($id);
-        if (empty($data['user'])) {
-            show_404();
-        }
-        $data['title'] = lang('users_view_html_title');
-        $this->load->model('roles_model');
-        $data['roles'] = $this->roles_model->get_roles();
-        $this->load->view('templates/header', $data);
-        $this->load->view('menu/index', $data);
-        $this->load->view('users/view', $data);
-        $this->load->view('templates/footer');
     }
     
     /**
@@ -115,18 +67,17 @@ class Users extends CI_Controller {
      */
     public function edit($id) {
         $this->auth->check_is_granted('edit_user');
-        $this->expires_now();
-        $data = $this->getUserContext();
+        expires_now();
+        $data = getUserContext($this);
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('users_edit_html_title');
         
-        $this->form_validation->set_rules('firstname', lang('users_edit_field_firstname'), 'required|xss_clean');
-        $this->form_validation->set_rules('lastname', lang('users_edit_field_lastname'), 'required|xss_clean');
-        $this->form_validation->set_rules('login', lang('users_edit_field_login'), 'required|xss_clean');
-        $this->form_validation->set_rules('email', lang('users_edit_field_email'), 'required|xss_clean');
-        $this->form_validation->set_rules('role', lang('users_edit_field_role'), 'required|xss_clean');
-        $this->form_validation->set_rules('language', lang('users_edit_field_language'), 'xss_clean');
+        $this->form_validation->set_rules('firstname', lang('users_edit_field_firstname'), 'required');
+        $this->form_validation->set_rules('lastname', lang('users_edit_field_lastname'), 'required');
+        $this->form_validation->set_rules('login', lang('users_edit_field_login'), 'required');
+        $this->form_validation->set_rules('email', lang('users_edit_field_email'), 'required');
+        $this->form_validation->set_rules('role[]', lang('users_edit_field_role'), 'required');
         
         $data['users_item'] = $this->users_model->get_users($id);
         if (empty($data['users_item'])) {
@@ -186,7 +137,7 @@ class Users extends CI_Controller {
             log_message('debug', '{controllers/users/reset} user not found');
             show_404();
         } else {
-            $data = $this->getUserContext();
+            $data = getUserContext($this);
             $data['target_user_id'] = $id;
             $this->load->helper('form');
             $this->load->library('form_validation');
@@ -241,21 +192,20 @@ class Users extends CI_Controller {
      */
     public function create() {
         $this->auth->check_is_granted('create_user');
-        $this->expires_now();
-        $data = $this->getUserContext();
+        expires_now();
+        $data = getUserContext($this);
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('users_create_title');
         $this->load->model('roles_model');
         $data['roles'] = $this->roles_model->get_roles();
 
-        $this->form_validation->set_rules('firstname', lang('users_create_field_firstname'), 'required|xss_clean');
-        $this->form_validation->set_rules('lastname', lang('users_create_field_lastname'), 'required|xss_clean');
-        $this->form_validation->set_rules('login', lang('users_create_field_login'), 'required|callback_login_check|xss_clean');
-        $this->form_validation->set_rules('email', lang('users_create_field_email'), 'required|xss_clean');
+        $this->form_validation->set_rules('firstname', lang('users_create_field_firstname'), 'required');
+        $this->form_validation->set_rules('lastname', lang('users_create_field_lastname'), 'required');
+        $this->form_validation->set_rules('login', lang('users_create_field_login'), 'required|callback_login_check');
+        $this->form_validation->set_rules('email', lang('users_create_field_email'), 'required');
         $this->form_validation->set_rules('password', lang('users_create_field_password'), 'required');
-        $this->form_validation->set_rules('role[]', lang('users_create_field_role'), 'required|xss_clean');
-        $this->form_validation->set_rules('language', lang('users_create_field_language'), 'xss_clean');
+        $this->form_validation->set_rules('role[]', lang('users_create_field_role'), 'required');
 
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/header', $data);
@@ -305,6 +255,7 @@ class Users extends CI_Controller {
      * Form validation callback : prevent from login duplication
      * @param type $login
      * @return boolean true if the field is valid, false otherwise
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function login_check($login) {
         if (!$this->users_model->is_login_available($login)) {
@@ -317,6 +268,7 @@ class Users extends CI_Controller {
     
     /**
      * Ajax endpoint : check login duplication
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function check_login() {
         header("Content-Type: text/plain");
@@ -332,6 +284,7 @@ class Users extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function export() {
+        expires_now();
         $this->auth->check_is_granted('export_user');
         $this->load->library('excel');
         $this->excel->setActiveSheetIndex(0);
@@ -360,21 +313,5 @@ class Users extends CI_Controller {
         header('Cache-Control: max-age=0');
         $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
         $objWriter->save('php://output');
-    }
-    
-    /**
-     * Internal utility function
-     * make sure a resource is reloaded every time
-     */
-    private function expires_now() {
-        // Date in the past
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        // always modified
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-        // HTTP/1.1
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        // HTTP/1.0
-        header("Pragma: no-cache");
     }
 }

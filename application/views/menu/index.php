@@ -24,11 +24,20 @@ $this->lang->load('menu', $language);?>
         <h3><a href="<?php echo base_url();?>" style="text-decoration:none; color:black;"><img src="<?php echo base_url();?>assets/images/logo.png">&nbsp;<?php echo lang('menu_banner_slogan');?></a>
     </div>
     <div class="col-md-6 pull-right">
-        <a href="<?php echo base_url();?>users/reset/<?php echo $user_id; ?>" title="<?php echo lang('menu_banner_tip_reset');?>" data-toggle="modal" data-target="#frmChangeMyPwd"><span class="glyphicon glyphicon-lock"></span></a>
+        <a href="#" title="<?php echo lang('menu_banner_tip_reset');?>" id="cmdChangeMyPwd"><span class="glyphicon glyphicon-lock"></span></a>
         &nbsp;
         <?php echo lang('menu_banner_welcome');?> <?php echo $fullname;?>, <a href="<?php echo base_url();?>connection/logout"><?php echo lang('menu_banner_logout');?></a>     
     </div>
 </div>
+
+<div class="modal hide" id="frmModalAjaxWaitPwd" data-backdrop="static" data-keyboard="false">
+        <div class="modal-header">
+            <h1><?php echo lang('global_msg_wait');?></h1>
+        </div>
+        <div class="modal-body">
+            <img src="<?php echo base_url();?>assets/images/loading.gif"  align="middle">
+        </div>
+ </div>
 
 <div id="frmChangeMyPwd" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -37,15 +46,28 @@ $this->lang->load('menu', $language);?>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
              <h4 class="modal-title"><?php echo lang('menu_password_popup_title');?></h4>
         </div>
-        <div class="modal-body">
-            <img src="<?php echo base_url();?>assets/images/loading.gif">
-        </div>
+        <div id="frmChangeMyPwdBody" class="modal-body"></div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('menu_password_popup_button_cancel');?></button>
         </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+$(function () {
+        $('#cmdChangeMyPwd').click(function() {
+            $('#frmModalAjaxWaitPwd').modal('show');
+            $("#frmChangeMyPwdBody").load('<?php echo base_url();?>users/reset/<?php echo $user_id; ?>', function(){
+                $('#frmModalAjaxWaitPwd').modal('hide');
+                $('#frmChangeMyPwd').modal('show'); 
+            });
+        });
+        $('#frmChangeMyPwd').on('hidden', function() {
+            $(this).removeData('modal');
+        });
+});
+</script>
 
 <div class="row-fluid">
     <div class="col-md-12">
@@ -61,14 +83,6 @@ $this->lang->load('menu', $language);?>
               </li>
             </ul>
             <?php } ?>
-            <!--<ul class="nav navbar-nav">			  
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_assets_title');?> <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="<?php echo base_url();?>locations"><?php echo lang('menu_assets_locations');?></a></li>
-                </ul>
-              </li>
-            </ul>//-->
            <ul class="nav navbar-nav">			  
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_tests_title');?> <b class="caret"></b></a>

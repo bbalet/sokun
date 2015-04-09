@@ -17,64 +17,172 @@
  */
 
 $CI =& get_instance();
-$CI->load->library('polyglot');
-$CI->load->helper('language');
-$this->lang->load('users', $language);
-$this->lang->load('global', $language);?>
+$CI->load->library('polyglot');?>
 
-<h2><?php echo lang('users_edit_title');?><?php echo $users_item['id']; ?></h2>
+<div class="row-fluid">
+    <div class="col-md-12">
+        
+        <h1><?php echo lang('users_edit_title');?><?php echo $users_item['id']; ?></h1>
 
-<?php echo validation_errors(); ?>
+        <?php echo validation_errors(); ?>
 
-<?php if (isset($_GET['source'])) {
-    echo form_open('users/edit/' . $users_item['id'] .'?source=' . $_GET['source']);
-} else {
-    echo form_open('users/edit/' . $users_item['id']);
-} ?>
+        <?php 
+        $attributes = array('id' => 'frmUserForm', 'class' => 'form-horizontal');
+        if (isset($_GET['source'])) {
+            echo form_open('users/edit/' . $users_item['id'] .'?source=' . $_GET['source'], $attributes);
+        } else {
+            echo form_open('users/edit/' . $users_item['id'], $attributes);
+        } ?>
+            <input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" required /><br />
 
-    <input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" required /><br />
+            <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label"><?php echo lang('users_edit_field_firstname');?></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="firstname" value="<?php echo $users_item['firstname']; ?>" required />
+                </div>
+            </div>
 
-    <label for="firstname"><?php echo lang('users_edit_field_firstname');?></label>
-    <input type="text" name="firstname" value="<?php echo $users_item['firstname']; ?>" required /><br />
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label"><?php echo lang('users_edit_field_lastname');?></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="lastname" value="<?php echo $users_item['lastname']; ?>" required />
+                </div>
+            </div>
 
-    <label for="lastname"><?php echo lang('users_edit_field_lastname');?></label>
-    <input type="text" name="lastname" value="<?php echo $users_item['lastname']; ?>" required /><br />
+            <div class="form-group">
+                <label for="login" class="col-sm-2 control-label"><?php echo lang('users_edit_field_login');?></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="login" name="login" value="<?php echo $users_item['login']; ?>" required />
+                    <div class="alert alert-info" role="alert" id="lblLoginAlert">
+                        <button type="button" class="close" onclick="$('#lblLoginAlert').hide();"><span aria-hidden="true">&times;</span></button>
+                        <?php echo lang('users_create_flash_msg_error');?>
+                    </div>
+                </div>
+            </div>
 
-    <label for="login"><?php echo lang('users_edit_field_login');?></label>
-    <input type="text" name="login" value="<?php echo $users_item['login']; ?>" required /><br />
-	
-    <label for="email"><?php echo lang('users_edit_field_email');?></label>
-    <input type="email" id="email" name="email" value="<?php echo $users_item['email']; ?>" required /><br />
-		
-    <label for="role[]"><?php echo lang('users_edit_field_role');?></label>
-    <select name="role[]" multiple="multiple" size="2">
-    <?php foreach ($roles as $roles_item): ?>
-        <option value="<?php echo $roles_item['id'] ?>" <?php if ((((int)$roles_item['id']) & ((int) $users_item['role']))) echo "selected" ?>><?php echo $roles_item['name'] ?></option>
-    <?php endforeach ?>
-    </select>
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label"><?php echo lang('users_edit_field_email');?></label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $users_item['email']; ?>" required />
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="role[]" class="col-sm-2 control-label"><?php echo lang('users_edit_field_role');?></label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="role[]" multiple="multiple" size="2">
+                    <?php foreach ($roles as $roles_item): ?>
+                        <option value="<?php echo $roles_item['id'] ?>" <?php if ((((int)$roles_item['id']) & ((int) $users_item['role']))) echo "selected" ?>><?php echo $roles_item['name'] ?></option>
+                    <?php endforeach ?>
+                    </select>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="language" class="col-sm-2 control-label"><?php echo lang('users_edit_field_language');?></label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="language">
+                         <?php 
+                         $languages = $CI->polyglot->nativelanguages($this->config->item('languages'));
+                         foreach ($languages as $code => $language): ?>
+                        <option value="<?php echo $code; ?>" <?php if ($code == $users_item['language']) echo "selected" ?>><?php echo $language; ?></option>
+                        <?php endforeach ?>
+                    </select>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id="send" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk glyphicon-white"></span>&nbsp;<?php echo lang('users_edit_button_update');?></button>
+                    &nbsp;
+                    <?php if (isset($_GET['source'])) {?>
+                        <a href="<?php echo base_url() . $_GET['source']; ?>" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove glyphicon-white"></span>&nbsp;<?php echo lang('users_edit_button_cancel');?></a>
+                    <?php } else {?>
+                        <a href="<?php echo base_url();?>users" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove glyphicon-white"></span>&nbsp;<?php echo lang('users_edit_button_cancel');?></a>
+                    <?php } ?>
+                 </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div class="row"><div class="col-md-12">&nbsp;</div></div>
+
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+
+<script type="text/javascript">
+
+    function validate_form() {
+        result = false;
+        var fieldname = "";
+        if ($('#firstname').val() == "") fieldname = "firstname";
+        if ($('#lastname').val() == "") fieldname = "lastname";
+        if ($('#login').val() == "") fieldname = "login";
+        if ($('#email').val() == "") fieldname = "email";
+        if ($('#password').val() == "") fieldname = "password";
+        if (fieldname == "") {
+            return true;
+        } else {
+            bootbox.alert(<?php echo lang('users_create_mandatory_js_msg');?>);
+            return false;
+        }
+    }
     
-    <label for="language"><?php echo lang('users_edit_field_language');?></label>
-    <select name="language">
-         <?php 
-         $languages = $CI->polyglot->nativelanguages($this->config->item('languages'));
-         foreach ($languages as $code => $language): ?>
-        <option value="<?php echo $code; ?>" <?php if ($code == $users_item['language']) echo "selected" ?>><?php echo $language; ?></option>
-        <?php endforeach ?>
-    </select>
-    
-    <br />
-    <button type="submit" class="btn btn-primary"><i class="glyphicon-ok glyphicon-white"></i>&nbsp;<?php echo lang('users_edit_button_update');?></button>
-    &nbsp;
-    <?php if (isset($_GET['source'])) {?>
-        <a href="<?php echo base_url() . $_GET['source']; ?>" class="btn btn-danger"><i class="glyphicon-remove glyphicon-white"></i>&nbsp;<?php echo lang('users_edit_button_cancel');?></a>
-    <?php } else {?>
-        <a href="<?php echo base_url();?>users" class="btn btn-danger"><i class="glyphicon-remove glyphicon-white"></i>&nbsp;<?php echo lang('users_edit_button_cancel');?></a>
-    <?php } ?>
-</form>
-
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/flick/jquery-ui-1.10.4.custom.min.css">
-<script src="<?php echo base_url();?>assets/js/jquery-ui-1.10.4.custom.min.js"></script>
-<?php //Prevent HTTP-404 when localization isn't needed
-if ($language_code != 'en') { ?>
-<script src="<?php echo base_url();?>assets/js/i18n/jquery.ui.datepicker-<?php echo $language_code;?>.js"></script>
-<?php } ?>
+    $(function () {
+        $("#lblLoginAlert").hide();
+        
+        //On any change on firstname or lastname fields, automatically build the
+        //login identifier with first character of firstname and lastname
+        $("#firstname").change(function() {
+            $("#login").val($("#firstname").val().charAt(0).toLowerCase() +
+                $("#lastname").val().toLowerCase());            
+        });
+        $("#lastname").change(function() {
+            $("#lastname").val($("#lastname").val().toUpperCase());
+            $("#login").val($("#firstname").val().charAt(0).toLowerCase() +
+                $("#lastname").val().toLowerCase());            
+        });
+        
+        //Check if the username already exists
+        $("#login").change(function() {
+            if ($("#login").val() != '<?php echo $users_item['login']; ?>') {
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url();?>users/check/login",
+                    data: { login: $("#login").val() }
+                    })
+                    .done(function( msg ) {
+                        if (msg == "true") {
+                            $("#lblLoginAlert").hide();
+                        } else {
+                            $("#lblLoginAlert").show();
+                        }
+                    });
+                } else {
+                    $("#lblLoginAlert").hide();
+                }
+        });
+        
+        $('#send').click(function() {
+            if ($("#login").val() != '<?php echo $users_item['login']; ?>') {
+                if (validate_form()) {
+                    $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url();?>users/check/login",
+                    data: { login: $("#login").val() }
+                    })
+                    .done(function( msg ) {
+                        if (msg == "true") {
+                            $("#target").submit();
+                        } else {
+                            bootbox.alert("<?php echo lang('users_create_login_check');?>");
+                        }
+                    });
+                }
+             } else {
+                $("#target").submit();
+             }
+        });
+    });
+</script>
