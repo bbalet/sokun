@@ -49,3 +49,22 @@ $lang['tests_export_thead_description'] = 'Description';
 
 $lang['tests_delete_flash_msg_success'] = 'The test has been succesfully deleted.';
 
+$lang['tests_steps_title'] = 'Edit the test steps';
+$lang['tests_steps_panel_steps'] = 'Test steps';
+$lang['tests_steps_thead_name'] = 'Name';
+$lang['tests_steps_thead_action'] = 'Action';
+$lang['tests_steps_thead_expected'] = 'Expected result';
+$lang['tests_steps_panel_edit'] = 'Create/Update Test steps';
+
+
+$lang['tests_steps_field_name'] = 'Name';
+$lang['tests_steps_field_description'] = 'Description';
+$lang['tests_steps_button_cancel'] = 'Cancel';
+$lang['tests_steps_button_update'] = 'Update';
+
+$lang['tests_steps_button_new'] = 'New step';
+$lang['tests_steps_button_back'] = 'Back to tests';
+
+$lang['tests_steps_flash_msg_add_success'] = 'The step has been succesfully added.';
+$lang['tests_steps_flash_msg_update_success'] = 'The step has been succesfully updated.';
+$lang['tests_steps_flash_msg_remove_success'] = 'The step has been succesfully removed.';

@@ -131,6 +131,42 @@ class Tests extends CI_Controller {
     }
     
     /**
+     * Update a test. Rules are checked on client side
+     * @param int $id Identifier of the test
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function steps($id) {
+        $this->auth->check_is_granted('tests_edit');
+        expires_now();
+        $data = getUserContext($this);
+        $data['test'] = $this->tests_model->get_tests($id);
+        $data['steps'] = $this->tests_model->get_steps($id);
+        $data['max'] = $this->tests_model->get_steps_max($id);
+        $data['title'] = lang('tests_edit_title');
+        $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
+        $this->load->view('templates/header', $data);
+        $this->load->view('menu/index', $data);
+        $this->load->view('tests/steps');
+        $this->load->view('templates/footer');
+        
+        
+        //$this->load->helper('form');
+        //$this->load->library('form_validation');
+        //$this->form_validation->set_rules('name', lang('tests_edit_field_name'), 'required');
+        /*if ($this->form_validation->run() === FALSE) {
+            $data['title'] = lang('tests_edit_title');
+            $this->load->view('templates/header', $data);
+            $this->load->view('menu/index', $data);
+            $this->load->view('tests/edit');
+            $this->load->view('templates/footer');
+        } else {
+            $this->tests_model->update_tests($id);
+            $this->session->set_flashdata('msg', lang('tests_edit_flash_msg_success'));
+            redirect('tests');
+        }*/
+    }
+    
+    /**
      * Export the list of all tests into an Excel file
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */

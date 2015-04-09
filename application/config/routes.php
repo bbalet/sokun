@@ -75,6 +75,7 @@ $route['tests/export'] = 'tests/export';
 $route['tests/create'] = 'tests/create';
 $route['tests/(:num)/edit'] = 'tests/edit/$1';
 $route['tests/(:num)/delete'] = 'tests/delete/$1';
+$route['tests/(:num)/steps'] = 'tests/steps/$1';
 
 //Campaigns
 $route['campaigns/index'] = 'campaigns/index';

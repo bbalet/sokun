@@ -97,6 +97,20 @@ class Tests_model extends CI_Model {
     }
     
     /**
+     * Get the maximum value in a list of test steps and for a given test
+     * @param int $test test identifier
+     * @return array record of test steps
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function get_steps_max($test) {
+        $this->db->select('max(steps.order) as max_order');
+        $query = $this->db->get_where('steps', array('test' => $test));
+        $result = $query->row_array();
+        return $result['max_order'];
+    }
+    
+    
+    /**
      * Insert a new test step
      * Inserted data are coming from an HTML form
      * @return int number of affected rows
