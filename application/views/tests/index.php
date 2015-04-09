@@ -21,46 +21,40 @@ $this->lang->load('datatable', $language);
 <div class="row-fluid">
     <div class="col-md-12">
 
-        <h2><?php echo lang('tests_index_title');?></h2>
+        <h1><?php echo lang('tests_index_title');?></h1>
+        
+        <?php echo $flash_partial_view;?>
 
-<?php /*
-        <table cellpadding="0" cellspacing="0" border="0" class="display" id="users" width="100%">
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="tests" width="100%">
             <thead>
                 <tr>
-                    <th><?php echo lang('users_index_thead_id');?></th>
-                    <th><?php echo lang('users_index_thead_firstname');?></th>
-                    <th><?php echo lang('users_index_thead_lastname');?></th>
-                    <th><?php echo lang('users_index_thead_login');?></th>
-                    <th><?php echo lang('users_index_thead_email');?></th>
-                    <th><?php echo lang('users_index_thead_role');?></th>
+                    <th><?php echo lang('tests_index_thead_id');?></th>
+                    <th><?php echo lang('tests_index_thead_name');?></th>
+                    <th><?php echo lang('tests_index_thead_creator');?></th>
+                    <th><?php echo lang('tests_index_thead_description');?></th>
                 </tr>
             </thead>
             <tbody>
-        <?php foreach ($users as $users_item): ?>
+        <?php foreach ($tests as $test): ?>
             <tr>
-                <td data-order="<?php echo $users_item['id']; ?>">
-                    <a href="<?php echo base_url();?>users/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_view');?>"><?php echo $users_item['id'] ?></a>
-                    &nbsp;
+                <td data-order="<?php echo $test['id']; ?>">
+                    <?php echo $test['id'] ?>
                     <div class="pull-right">
-                        <a href="<?php echo base_url();?>users/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_view');?>"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        <a href="<?php echo base_url();?>users/edit/<?php echo $test['id'] ?>" title="<?php echo lang('tests_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
                         &nbsp;
-                        <a href="<?php echo base_url();?>users/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="#" class="confirm-delete" data-id="<?php echo $test['id'];?>" title="<?php echo lang('tests_index_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
                         &nbsp;
-                        <a href="#" class="confirm-delete" data-id="<?php echo $users_item['id'];?>" title="<?php echo lang('users_index_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
-                        &nbsp;
-                        <a href="<?php echo base_url();?>users/reset/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_reset');?>" data-target="#frmResetPwd" data-toggle="modal"><span class="glyphicon glyphicon-lock"></span></a>
+                        <a href="<?php echo base_url();?>tests/<?php echo $test['id']; ?>/steps"><?php echo lang('tests_index_thead_link_steps');?></a>
                     </div>
                 </td>
-                <td><?php echo $users_item['firstname'] ?></td>
-                <td><?php echo $users_item['lastname'] ?></td>
-                <td><?php echo $users_item['login'] ?></td>
-                <td><a href="mailto:<?php echo $users_item['email']; ?>"><?php echo $users_item['email']; ?></a></td>
-                <td><?php echo $users_item['role'] ?></td>
+                <td><?php echo $test['name'] ?></td>
+                <td><?php echo $test['creator_name'] ?></td>
+                <td><?php echo $test['description'] ?></td>
             </tr>
         <?php endforeach ?>
                 </tbody>
         </table>
-*/?>
+
         <div class="row-fluid"> <div class="col-md-12">&nbsp;</div></div>
 
         <div class="row">
@@ -75,6 +69,9 @@ $this->lang->load('datatable', $language);
     </div>
 </div>
 
+<link href="<?php echo base_url();?>assets/datatable/css/jquery.dataTables.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url();?>assets/datatable/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     //Transform the HTML table
@@ -103,5 +100,14 @@ $(document).ready(function() {
                 }
             }
         });
+        
+    $('.confirm-delete').click(function() {
+        var id = $(this).data('id');
+        bootbox.confirm("<?php echo lang('global_msg_delete_confirmation');?>", function(result) {
+            if (result) {
+                document.location = '<?php echo base_url();?>tests/' + id + '/delete';
+            }
+        });
+    });
 });
 </script>

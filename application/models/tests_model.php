@@ -39,7 +39,7 @@ class Tests_model extends CI_Model {
             $query = $this->db->get('tests');
             return $query->result_array();
         }
-        $query = $this->db->get_where('tests', array('id' => $id));
+        $query = $this->db->get_where('tests', array('tests.id' => $id));
         return $query->row_array();
     }
 

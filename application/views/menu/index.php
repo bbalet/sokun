@@ -68,15 +68,15 @@ $this->lang->load('menu', $language);?>
                   <li><a href="<?php echo base_url();?>locations"><?php echo lang('menu_assets_locations');?></a></li>
                 </ul>
               </li>
-            </ul>
+            </ul>//-->
            <ul class="nav navbar-nav">			  
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_validation_title');?> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_tests_title');?> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="<?php echo base_url();?>timeslots/validation"><?php echo lang('menu_validation_booking');?></a></li>
+                  <li><a href="<?php echo base_url();?>tests"><?php echo lang('menu_tests_index');?></a></li>
                 </ul>
               </li>
-            </ul>//-->
+            </ul>
             <ul class="nav navbar-nav">			  
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_campaigns_title');?> <b class="caret"></b></a>

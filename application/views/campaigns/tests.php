@@ -53,8 +53,15 @@ $this->lang->load('global', $language);?>
                 </tbody>
         </table>
         <div class="row-fluid"> <div class="col-md-12">&nbsp;</div></div>
-    
     </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-12">
+        <button id="cmdSelectTest" class="btn btn-primary"><span class="glyphicon glyphicon-plus glyphicon-white"></span>&nbsp;<?php echo lang('campaigns_tests_button_add_test');?></button>
+        &nbsp;
+        <a href="<?php echo base_url();?>campaigns/<?php echo $campaign_id; ?>/tests/export" class="btn btn-primary"><span class="glyphicon glyphicon-save-file glyphicon-white"></span>&nbsp;<?php echo lang('campaigns_tests_button_export');?></a>
+     </div>
 </div>
 
 <div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
@@ -83,14 +90,6 @@ $this->lang->load('global', $language);?>
       </div>
     </div>
   </div>
-</div>
-
-<div class="row-fluid">
-    <div class="col-md-12">
-        <button id="cmdSelectTest" class="btn btn-primary"><span class="glyphicon glyphicon-plus glyphicon-white"></span>&nbsp;<?php echo lang('campaigns_tests_button_add_test');?></button>
-        &nbsp;
-        <a href="<?php echo base_url();?>campaigns/<?php echo $campaign_id; ?>/tests/export" class="btn btn-primary"><span class="glyphicon glyphicon-save-file glyphicon-white"></span>&nbsp;<?php echo lang('campaigns_tests_button_export');?></a>
-     </div>
 </div>
 
 <div class="row"><div class="col-md-12">&nbsp;</div></div>

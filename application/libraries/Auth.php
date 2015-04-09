@@ -83,6 +83,10 @@ class Auth {
             //tests
             case 'tests_list' :
             case 'tests_select' :
+            case 'tests_create' :
+            case 'tests_edit' :
+            case 'tests_delete' :
+            case 'tests_steps' :
 
                 return true;
                 break;

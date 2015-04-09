@@ -17,20 +17,21 @@
  */
 
 $lang['tests_index_title'] = 'Test cases';
-$lang['tests_index_thead_tip_view'] = 'view';
 $lang['tests_index_thead_tip_edit'] = 'edit';
 $lang['tests_index_thead_tip_delete'] = 'delete';
+$lang['tests_index_thead_link_steps'] = 'Steps';
 $lang['tests_index_thead_id'] = 'ID';
-$lang['tests_index_thead_start_date'] = 'Start Date';
-$lang['tests_index_thead_end_date'] = 'End Date';
-$lang['tests_index_thead_cause'] = 'Reason';
-$lang['tests_index_thead_duration'] = 'Duration';
-$lang['tests_index_thead_type'] = 'Type';
-$lang['tests_index_thead_status'] = 'Status';
+$lang['tests_index_thead_name'] = 'Name';
+$lang['tests_index_thead_creator'] = 'Creator';
+$lang['tests_index_thead_description'] = 'Description';
 $lang['tests_index_button_export'] = 'Export this list';
 $lang['tests_index_button_create'] = 'New test case';
-$lang['tests_index_popup_delete_title'] = 'Delete test case';
-$lang['tests_index_popup_delete_message'] = 'You are about to delete one test case, this procedure is irreversible.';
-$lang['tests_index_popup_delete_question'] = 'Do you want to proceed?';
-$lang['tests_index_popup_delete_button_yes'] = 'Yes';
-$lang['tests_index_popup_delete_button_no'] = 'No';
+
+$lang['tests_export_title'] = 'Test cases';
+$lang['tests_export_thead_id'] = 'ID';
+$lang['tests_export_thead_name'] = 'Name';
+$lang['tests_export_thead_creator'] = 'Creator';
+$lang['tests_export_thead_description'] = 'Description';
+
+$lang['tests_delete_flash_msg_success'] = 'The test has been succesfully deleted.';
+

@@ -33,8 +33,8 @@ $lang['menu_admin_add_user'] = 'Create user';
 $lang['menu_assets_title'] = 'Assets';
 $lang['menu_assets_locations'] = 'Locations';
 
-$lang['menu_validation_title'] = 'Validation';
-$lang['menu_validation_booking'] = 'Booking';
+$lang['menu_tests_title'] = 'Tests';
+$lang['menu_tests_index'] = 'List of tests';
 
 $lang['menu_campaigns_title'] = 'Campaigns';
 $lang['menu_campaigns_index'] = 'List of campaigns';

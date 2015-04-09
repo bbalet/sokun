@@ -38,6 +38,8 @@ class Tests extends CI_Controller {
         $this->auth->check_is_granted('tests_list');
         $data = getUserContext($this);
         $data['title'] = lang('tests_index_title');
+        $data['tests'] = $this->tests_model->get_tests();
+        $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('tests/index', $data);
@@ -54,6 +56,63 @@ class Tests extends CI_Controller {
         $data['tests'] = $this->tests_model->get_tests();
         $data['title'] = lang('tests_select_title');
         $this->load->view('tests/select', $data);
+    }
+    
+    /**
+     * Delete a test (if it exists)
+     * @param int $id Identifier of the test
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function delete($id) {
+        $this->auth->check_is_granted('tests_delete');
+        //Test if the test exists
+        $test = $this->tests_model->get_tests($id);
+        if (empty($test)) {
+            show_404();
+        } else {
+            $this->tests_model->delete_test($id);
+        }
+        $this->session->set_flashdata('msg', lang('tests_delete_flash_msg_success'));
+        redirect('tests');
+    }
+    
+    /**
+     * Export the list of all tests into an Excel file
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function export() {
+        expires_now();
+        $this->load->library('excel');
+        $this->excel->setActiveSheetIndex(0);
+        $this->excel->getActiveSheet()->setTitle(lang('tests_export_title'));
+        $this->excel->getActiveSheet()->setCellValue('A1', lang('tests_export_thead_id'));
+        $this->excel->getActiveSheet()->setCellValue('B1', lang('tests_export_thead_name'));
+        $this->excel->getActiveSheet()->setCellValue('C1', lang('tests_export_thead_creator'));
+        $this->excel->getActiveSheet()->setCellValue('D1', lang('tests_export_thead_description'));
+        $this->excel->getActiveSheet()->getStyle('A1:D1')->getFont()->setBold(true);
+        $this->excel->getActiveSheet()->getStyle('A1:D1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        
+        $tests = $this->tests_model->get_tests();
+        $line = 2;
+        foreach ($tests as $test) {
+            $this->excel->getActiveSheet()->setCellValue('A' . $line, $test['id']);
+            $this->excel->getActiveSheet()->setCellValue('B' . $line, $test['name']);
+            $this->excel->getActiveSheet()->setCellValue('C' . $line, $test['creator_name']);
+            $this->excel->getActiveSheet()->setCellValue('D' . $line, $test['description']);
+            $line++;
+        }
+        
+        //Autofit
+        foreach(range('A', 'D') as $colD) {
+            $this->excel->getActiveSheet()->getColumnDimension($colD)->setAutoSize(TRUE);
+        }
+
+        $filename = 'tests.xls';
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+        $objWriter->save('php://output');
     }
 
 }

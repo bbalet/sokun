@@ -33,8 +33,8 @@ $lang['menu_admin_add_user'] = 'Ajouter un utilisateur';
 $lang['menu_assets_title'] = 'Gestion';
 $lang['menu_assets_locations'] = 'Emplacements';
 
-$lang['menu_validation_title'] = 'Validation';
-$lang['menu_validation_booking'] = 'Réservations';
+$lang['menu_tests_title'] = 'Tests';
+$lang['menu_tests_index'] = 'Liste des tests';
 
 $lang['menu_campaigns_title'] = 'Campagnes';
 $lang['menu_campaigns_index'] = 'Liste des campagnes';

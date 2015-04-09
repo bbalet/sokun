@@ -71,6 +71,8 @@ $route['connection/forgetpassword'] = 'connection/forgetpassword';
 //Tests
 $route['tests'] = 'tests/index';
 $route['tests/select'] = 'tests/select';
+$route['tests/export'] = 'tests/export';
+$route['tests/(:num)/delete'] = 'tests/delete/$1';
 
 //Campaigns
 $route['campaigns/index'] = 'campaigns/index';
