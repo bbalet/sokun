@@ -70,12 +70,17 @@ $route['connection/forgetpassword'] = 'connection/forgetpassword';
 
 //Tests
 $route['tests'] = 'tests/index';
+$route['tests/select'] = 'tests/select';
 
 //Campaigns
 $route['campaigns/index'] = 'campaigns/index';
 $route['campaigns/create'] = 'campaigns/create';
 $route['campaigns/(:num)/edit'] = 'campaigns/edit/$1';
 $route['campaigns/(:num)/delete'] = 'campaigns/delete/$1';
+$route['campaigns/(:num)/tests'] = 'campaigns/tests/$1';
+$route['campaigns/(:num)/tests/export'] = 'campaigns/export_tests/$1';
+$route['campaigns/(:num)/tests/remove/(:num)'] = 'campaigns/remove_test/$1/$2';
+$route['campaigns/(:num)/tests/add/(:num)'] = 'campaigns/add_test/$1/$2';
 $route['campaigns/calendar'] = 'campaigns/calendar';
 $route['campaigns/calfeed'] = 'campaigns/calfeed';
 

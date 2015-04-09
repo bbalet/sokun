@@ -58,3 +58,23 @@ $lang['campaigns_edit_field_description'] = 'Description';
 $lang['campaigns_edit_button_cancel'] = 'Cancel';
 $lang['campaigns_edit_button_update'] = 'Update';
 $lang['campaigns_edit_flash_msg_success'] = 'The campaign has been succesfully updated.';
+
+$lang['campaigns_tests_title'] = 'List of tests in campaign';
+$lang['campaigns_tests_thead_tip_edit'] = 'edit';
+$lang['campaigns_tests_thead_tip_remove'] = 'remove';
+$lang['campaigns_tests_thead_id'] = 'ID';
+$lang['campaigns_tests_thead_name'] = 'Name';
+$lang['campaigns_tests_thead_description'] = 'Description';
+$lang['campaigns_tests_button_export'] = 'Export this list';
+$lang['campaigns_tests_button_add_test'] = 'Add a test';
+$lang['campaigns_tests_popup_add_test_title'] = 'Select the test to be added';
+$lang['campaigns_tests_popup_add_test_button_ok'] = 'OK';
+$lang['campaigns_tests_popup_add_test_button_cancel'] = 'Cancel';
+
+$lang['campaigns_tests_export_title'] = 'List of tests in campaign';
+$lang['campaigns_tests_export_thead_id'] = 'ID';
+$lang['campaigns_tests_export_thead_name'] = 'Name';
+$lang['campaigns_tests_export_thead_description'] = 'Description';
+
+$lang['campaigns_remove_test_flash_msg_success'] = 'The test has been succesfully removed from the campaign.';
+$lang['campaigns_add_test_flash_msg_success'] = 'The test has been succesfully added into the campaign.';

@@ -82,6 +82,7 @@ class Auth {
             
             //tests
             case 'tests_list' :
+            case 'tests_select' :
 
                 return true;
                 break;
@@ -91,8 +92,9 @@ class Auth {
             case 'campaigns_create' :
             case 'campaigns_edit' :
             case 'campaigns_delete' :
+            case 'campaigns_tests' :
+            case 'campaigns_remove' :
             case 'campaigns_calendar' :
-
                 return true;
                 break;
             

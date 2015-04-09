@@ -75,15 +75,39 @@ class Campaigns_model extends CI_Model {
     
     /**
      * Get the list of tests in a campaign
-     * @param int $campaign campaign identifier
+     * @param int $id campaign identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function get_tests($campaign) {
-        $this->db->select('tests.*');
-        $this->db->select('CONCAT_WS(\' \', users.firstname, users.lastname) as creator_name', FALSE);
+    public function get_tests($id) {
+        $this->db->select('campaigntests.id as assoc_id, tests.*');
         $this->db->join('tests', 'tests.id = campaigntests.test');
         $this->db->join('users', 'users.id = tests.creator');
         $query = $this->db->get_where('campaigntests', array('campaign' => $id));
+        return $query->result_array();
+    }
+    
+    /**
+     * delete a test/campaign association
+     * @param int $assoc_id identifier of the campaign/test association
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function remove_test($assoc_id) {
+        $this->db->delete('campaigntests', array('id' => $assoc_id));
+    }
+    
+    /**
+     * add a test/campaign association
+     * @param int $campaign campaign identifier
+     * @param int $test test identifier
+     * @return int Number of affected rows
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function add_test($campaign, $test) {
+        $data = array(
+            'campaign' => $campaign,
+            'test' => $test
+        );
+        return $this->db->insert('campaigntests', $data);
     }
     
     /**
@@ -92,9 +116,9 @@ class Campaigns_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function delete_campaign($id) {
-        $query = $this->db->delete('campaigns', array('id' => $id));
+        $this->db->delete('campaigns', array('id' => $id));
         //delete tests/campaign associations
-        $query = $this->db->delete('campaigntests', array('campaign' => $id));
+        $this->db->delete('campaigntests', array('campaign' => $id));
     }
     
     /**

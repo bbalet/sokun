@@ -26,8 +26,14 @@ class Tests extends CI_Controller {
         parent::__construct();
         setUserContext($this);
         $this->lang->load('tests', $this->language);
+        $this->load->model('tests_model');
     }
-    
+
+    /**
+     * Display the list of all tests
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+
     public function index() {
         $this->auth->check_is_granted('tests_list');
         $data = getUserContext($this);
@@ -36,6 +42,18 @@ class Tests extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('tests/index', $data);
         $this->load->view('templates/footer');   
+    }
+    
+    /**
+     * Display a pop-up allowing to select a test case
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function select() {
+        $this->auth->check_is_granted('tests_select');
+        $data = getUserContext($this);
+        $data['tests'] = $this->tests_model->get_tests();
+        $data['title'] = lang('tests_select_title');
+        $this->load->view('tests/select', $data);
     }
 
 }

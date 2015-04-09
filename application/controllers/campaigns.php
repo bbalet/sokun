@@ -102,6 +102,7 @@ class Campaigns extends CI_Controller {
     /**
      * Delete a campaign (if it exists)
      * @param int $id Identifier of the campaign
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function delete($id) {
         $this->auth->check_is_granted('campaigns_delete');
@@ -114,6 +115,52 @@ class Campaigns extends CI_Controller {
         }
         $this->session->set_flashdata('msg', lang('campaigns_delete_flash_msg_success'));
         redirect('campaigns');
+    }
+    
+    /**
+     * List of tests in a campaign
+     * @param int $id Identifier of the campaign
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function tests($id) {
+        $this->auth->check_is_granted('campaigns_tests');
+        $data = getUserContext($this);
+        $data['title'] = lang('campaigns_index_title');
+        $campaign = $this->campaigns_model->get_campaigns($id);
+        $data['campaign_id'] = $id;
+        $data['campaign_name'] = $campaign['name'];
+        $data['tests'] = $this->campaigns_model->get_tests($id);
+        $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
+        $this->load->view('templates/header', $data);
+        $this->load->view('menu/index', $data);
+        $this->load->view('campaigns/tests', $data);
+        $this->load->view('templates/footer');   
+    }
+    
+    /**
+     * Remove a test from a campaign
+     * @param int $campaign campaign identifier
+     * @param int $assoc_id identifier of the campaign/test association
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function remove_test($campaign, $assoc_id) {
+        $this->auth->check_is_granted('campaigns_remove');
+        $this->campaigns_model->remove_test($assoc_id);
+        $this->session->set_flashdata('msg', lang('campaigns_remove_test_flash_msg_success'));
+        redirect('campaigns/' . $campaign . '/tests');
+    }
+    
+    /**
+     * Add a test into a campaign
+     * @param int $campaign campaign identifier
+     * @param int $test test identifier
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function add_test($campaign, $test) {
+        $this->auth->check_is_granted('campaigns_remove');
+        $this->campaigns_model->add_test($campaign, $test);
+        $this->session->set_flashdata('msg', lang('campaigns_add_test_flash_msg_success'));
+        redirect('campaigns/' . $campaign . '/tests');
     }
     
     /**
@@ -180,6 +227,49 @@ class Campaigns extends CI_Controller {
         }
 
         $filename = 'campaigns.xls';
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+        $objWriter->save('php://output');
+    }
+    
+    /**
+     * Export the list of all tests of a campaign into an Excel file
+     * @param int $id Identifier of the campaign
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function export_tests($id) {
+        expires_now();
+        $this->load->library('excel');
+        $this->excel->setActiveSheetIndex(0);
+        $this->excel->getActiveSheet()->setTitle(lang('campaigns_tests_export_title'));
+        
+        $campaign = $this->campaigns_model->get_campaigns($id);
+        $this->excel->getActiveSheet()->setCellValue('A1', lang('campaigns_tests_export_title'));
+        $this->excel->getActiveSheet()->setCellValue('A2', $campaign['name']);
+        
+        $this->excel->getActiveSheet()->setCellValue('A3', lang('campaigns_tests_export_thead_id'));
+        $this->excel->getActiveSheet()->setCellValue('B3', lang('campaigns_tests_export_thead_name'));
+        $this->excel->getActiveSheet()->setCellValue('C3', lang('campaigns_tests_export_thead_description'));
+        $this->excel->getActiveSheet()->getStyle('A3:C3')->getFont()->setBold(true);
+        $this->excel->getActiveSheet()->getStyle('A3:C3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $tests = $this->campaigns_model->get_tests($id);
+        $line = 4;
+        foreach ($tests as $test) {
+            $this->excel->getActiveSheet()->setCellValue('A' . $line, $test['id']);
+            $this->excel->getActiveSheet()->setCellValue('B' . $line, $test['name']);
+            $this->excel->getActiveSheet()->setCellValue('C' . $line, $test['description']);
+            $line++;
+        }
+        
+        //Autofit
+        foreach(range('A', 'C') as $colD) {
+            $this->excel->getActiveSheet()->getColumnDimension($colD)->setAutoSize(TRUE);
+        }
+
+        $filename = 'campaign_tests.xls';
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
