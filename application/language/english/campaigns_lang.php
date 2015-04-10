@@ -65,6 +65,7 @@ $lang['campaigns_tests_thead_tip_remove'] = 'remove';
 $lang['campaigns_tests_thead_id'] = 'ID';
 $lang['campaigns_tests_thead_name'] = 'Name';
 $lang['campaigns_tests_thead_description'] = 'Description';
+$lang['campaigns_tests_button_back'] = 'Back to list of campaigns';
 $lang['campaigns_tests_button_export'] = 'Export this list';
 $lang['campaigns_tests_button_add_test'] = 'Add a test';
 $lang['campaigns_tests_popup_add_test_title'] = 'Select the test to be added';

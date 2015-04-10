@@ -41,6 +41,10 @@ $lang['tests_edit_button_cancel'] = 'Annuler';
 $lang['tests_edit_button_update'] = 'Modifier';
 $lang['tests_edit_flash_msg_success'] = 'Le test a été modifié avec succès.';
 
+$lang['tests_index_thead_tip_up'] = 'Monter';
+$lang['tests_index_thead_tip_down'] = 'Descendre';
+
+
 $lang['tests_delete_flash_msg_success'] = 'Le test a été supprimé avec succès.';
 
 $lang['tests_export_title'] = 'Fiches de test';

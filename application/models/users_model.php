@@ -32,11 +32,13 @@ class Users_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function get_users($id = 0) {
+        $this->db->select('users.*, roles.name as role_name');
+        $this->db->join('roles', 'users.role = roles.id');
         if ($id === 0) {
             $query = $this->db->get('users');
             return $query->result_array();
         }
-        $query = $this->db->get_where('users', array('id' => $id));
+        $query = $this->db->get_where('users', array('users.id' => $id));
         return $query->row_array();
     }
 
@@ -230,12 +232,6 @@ class Users_model extends CI_Model {
             $row = $query->row();
             if ($this->bcrypt->check_password($password, $row->password)) {
                 // Password does match stored password.
-               /*
-                00000001 1  Admin
-                00000100 8  HR Officier / Local HR Manager
-                00001000 16 HR Manager
-              = 00001101 25 Can access to HR functions
-                */
                 if (((int) $row->role & 1)) {
                     $is_admin = true;
                 }
@@ -300,12 +296,6 @@ class Users_model extends CI_Model {
         $query = $this->db->get();
         $row = $query->row();
         // Password does match stored password.
-        /*
-          00000001 1  Admin
-          00000100 8  HR Officier / Local HR Manager
-          00001000 16 HR Manager
-          = 00001101 25 Can access to HR functions
-         */
         if (((int) $row->role & 1)) {
             $is_admin = true;
         } else {
@@ -338,5 +328,29 @@ class Users_model extends CI_Model {
         } else {
             return $query->row();
         }
+    }
+    
+        /*
+        00000001 1  Admin
+        00000010 2	User
+        00000100 8	HR Officier / Local HR Manager
+        00001000 16	HR Manager
+        00010000 32	General Manager
+        00100000 34	Global Manager
+     */
+
+    /**
+     * Get the list of roles or one role
+     * @param int $id optional id of one role
+     * @return array record of roles
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function get_roles($id = 0) {
+        if ($id === 0) {
+            $query = $this->db->get('roles');
+            return $query->result_array();
+        }
+        $query = $this->db->get_where('roles', array('id' => $id));
+        return $query->row_array();
     }
 }

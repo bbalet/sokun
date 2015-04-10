@@ -70,3 +70,23 @@ function expires_now() {
     // HTTP/1.0
     header("Pragma: no-cache");
 }
+
+/**
+ * htmlentities in PHP but preserving html tags
+ * @param string $input_string
+ * @return string htmlentities in PHP but by preserving html tags
+ * @author Benjamin BALET <benjamin.balet@gmail.com>
+ */
+function htmlentities_htmltags($input_string)
+{
+    $list = get_html_translation_table(HTML_ENTITIES);
+    unset($list['"']);
+    unset($list['<']);
+    unset($list['>']);
+    unset($list['&']);
+    $search = array_keys($list);
+    $values = array_values($list);
+    //$search = array_map('utf8_encode', $search);
+    $result = str_replace($search, $values, $input_string);
+    return $result;
+}

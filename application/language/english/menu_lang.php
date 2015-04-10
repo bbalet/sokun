@@ -35,7 +35,10 @@ $lang['menu_assets_locations'] = 'Locations';
 
 $lang['menu_tests_title'] = 'Tests';
 $lang['menu_tests_index'] = 'List of tests';
+$lang['menu_tests_create'] = 'Create a test';
 
 $lang['menu_campaigns_title'] = 'Campaigns';
 $lang['menu_campaigns_index'] = 'List of campaigns';
 $lang['menu_campaigns_calendar'] = 'Calendar';
+$lang['menu_campaigns_create'] = 'Create a campaign';
+

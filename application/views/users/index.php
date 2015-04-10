@@ -22,22 +22,10 @@ $this->lang->load('global', $language);?>
 
 <div class="row-fluid">
     <div class="col-md-12">
-
-<?php if($this->session->flashdata('msg')){ ?>
-<div class="alert fade in" id="flashbox">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <?php echo $this->session->flashdata('msg'); ?>
-</div>
- 
-<script type="text/javascript">
-//Flash message
-$(document).ready(function() {
-    $("#flashbox").alert();
-});
-</script>
-<?php } ?>
         
 <h1><?php echo lang('users_index_title');?></h1>
+
+<?php echo $flash_partial_view;?>
 
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="users" width="100%">
     <thead>
@@ -54,21 +42,20 @@ $(document).ready(function() {
 <?php foreach ($users as $users_item): ?>
     <tr>
         <td data-order="<?php echo $users_item['id']; ?>">
-            <a href="<?php echo base_url();?>users/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_view');?>"><?php echo $users_item['id'] ?></a>
-            &nbsp;
+            <?php echo $users_item['id'] ?>
             <div class="pull-right">
                 <a href="<?php echo base_url();?>users/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
                 &nbsp;
                 <a href="#" class="confirm-delete" data-id="<?php echo $users_item['id'];?>" title="<?php echo lang('users_index_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
                 &nbsp;
-                <a href="<?php echo base_url();?>users/reset/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_reset');?>" data-target="#frmResetPwd" data-toggle="modal"><span class="glyphicon glyphicon-lock"></span></a>
+                <a href="#" class="reset-pwd" data-id="<?php echo $users_item['id'];?>" title="<?php echo lang('users_index_thead_tip_reset');?>"><span class="glyphicon glyphicon-lock"></span></a>
             </div>
         </td>
         <td><?php echo $users_item['firstname'] ?></td>
         <td><?php echo $users_item['lastname'] ?></td>
         <td><?php echo $users_item['login'] ?></td>
         <td><a href="mailto:<?php echo $users_item['email']; ?>"><?php echo $users_item['email']; ?></a></td>
-        <td><?php echo $users_item['role'] ?></td>
+        <td><?php echo $users_item['role_name'] ?></td>
     </tr>
 <?php endforeach ?>
 	</tbody>
@@ -88,28 +75,6 @@ $(document).ready(function() {
     </div>
 </div>
 
-<link href="<?php echo base_url();?>assets/datatable/css/jquery.dataTables.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url();?>assets/datatable/js/jquery.dataTables.min.js"></script>
-
-<div id="frmConfirmDelete" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="close">&times;</a>
-             <h3><?php echo lang('users_index_popup_delete_title');?></h3>
-        </div>
-        <div class="modal-body">
-            <p><?php echo lang('users_index_popup_delete_message');?></p>
-            <p><?php echo lang('users_index_popup_delete_question');?></p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn danger" id="lnkDeleteUser"><?php echo lang('users_index_popup_delete_button_yes');?></a>
-            <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="btn secondary"><?php echo lang('users_index_popup_delete_button_no');?></a>
-        </div>
-    </div>
-  </div>
-</div>
-
 <div id="frmResetPwd" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -117,9 +82,7 @@ $(document).ready(function() {
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                  <h3><?php echo lang('users_index_popup_password_title');?></h3>
             </div>
-            <div class="modal-body">
-                <img src="<?php echo base_url();?>assets/images/loading.gif">
-            </div>
+            <div id="frmResetPwdBody" class="modal-body"></div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal"><?php echo lang('users_index_popup_password_button_cancel');?></button>
             </div>
@@ -127,6 +90,18 @@ $(document).ready(function() {
     </div>
 </div>
 
+<div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
+        <div class="modal-header">
+            <h1><?php echo lang('global_msg_wait');?></h1>
+        </div>
+        <div class="modal-body">
+            <img src="<?php echo base_url();?>assets/images/loading.gif"  align="middle">
+        </div>
+ </div>
+
+<link href="<?php echo base_url();?>assets/datatable/css/jquery.dataTables.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url();?>assets/datatable/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     //Transform the HTML table in a fancy datatable
@@ -155,26 +130,23 @@ $(document).ready(function() {
                     }
                 }
             });
-    $("#frmResetPwd").alert();
-    $("#frmImportUsers").alert();
-	
-    //On showing the confirmation pop-up, add the user id at the end of the delete url action
-    $('#frmConfirmDelete').on('show', function() {
-        var link = "<?php echo base_url();?>users/delete/" + $(this).data('id');
-        $("#lnkDeleteUser").attr('href', link);
-    });
-
-    //Display a modal pop-up so as to confirm if a user has to be deleted or not
-    //We build a complex selector because datatable does horrible things on DOM...
-    //a simplier selector doesn't work when the delete is on page >1 
-    $("#users tbody").on('click', '.confirm-delete',  function(){
+    
+    $('.confirm-delete').click(function() {
         var id = $(this).data('id');
-        $('#frmConfirmDelete').data('id', id).modal('show');
+        bootbox.confirm("<?php echo lang('global_msg_delete_confirmation');?>", function(result) {
+            if (result) {
+                document.location = '<?php echo base_url();?>users/delete/' + id;
+            }
+        });
     });
     
-    //Prevent to load always the same content (refreshed each time)
-    $('#frmConfirmDelete').on('hidden', function() {
-        $(this).removeData('modal');
+    $('.reset-pwd').click(function() {
+        var id = $(this).data('id');
+        $('#frmModalAjaxWait').modal('show');
+        $("#frmResetPwdBody").load('<?php echo base_url();?>users/reset/' + id, function(){
+            $('#frmModalAjaxWait').modal('hide');
+            $('#frmResetPwd').modal('show'); 
+        });
     });
     $('#frmResetPwd').on('hidden', function() {
         $(this).removeData('modal');

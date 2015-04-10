@@ -514,6 +514,20 @@ $config['proxy_ips'] = '';
 $config['from_mail'] = 'do.not@reply.me';
 $config['from_name'] = 'sokun Software';
 
+$config['protocol'] = 'smtp';
+$config['mailpath'] = '';
+$config['smtp_host'] = 'localhost';
+$config['smtp_port'] = '25';
+$config['smtp_user'] = '';
+$config['smtp_pass'] = '';
+//$config['smtp_crypto'] = 'tls';
+$config['charset'] = 'utf-8';
+$config['wordwrap'] = FALSE;
+//$config['wrapchars'] = '76';
+$config['mailtype'] = 'html';
+$config['crlf'] = '\r\n';
+$config['newline'] = '\r\n';
+
 //List of available languages
 $config['languages'] = 'en,fr';
 

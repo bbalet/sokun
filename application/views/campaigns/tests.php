@@ -22,7 +22,7 @@ $this->lang->load('global', $language);?>
 <div class="row-fluid">
     <div class="col-md-12">
 
-        <h1><?php echo lang('campaigns_tests_title');?>&nbsp;<span class="text-muted"><?php echo $campaign_name;?></span></h1>
+        <h1><?php echo lang('campaigns_tests_title');?>&nbsp;<span class="text-muted">(<?php echo $campaign_name;?>)</span></h1>
 
         <?php echo $flash_partial_view;?>
         
@@ -58,6 +58,8 @@ $this->lang->load('global', $language);?>
 
 <div class="row-fluid">
     <div class="col-md-12">
+        <a href="<?php echo base_url();?>campaigns" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left glyphicon-white"></span>&nbsp;<?php echo lang('campaigns_tests_button_back');?></a>
+        &nbsp;
         <button id="cmdSelectTest" class="btn btn-primary"><span class="glyphicon glyphicon-plus glyphicon-white"></span>&nbsp;<?php echo lang('campaigns_tests_button_add_test');?></button>
         &nbsp;
         <a href="<?php echo base_url();?>campaigns/<?php echo $campaign_id; ?>/tests/export" class="btn btn-primary"><span class="glyphicon glyphicon-save-file glyphicon-white"></span>&nbsp;<?php echo lang('campaigns_tests_button_export');?></a>

@@ -56,6 +56,9 @@ $lang['tests_steps_thead_action'] = 'Action';
 $lang['tests_steps_thead_expected'] = 'Expected result';
 $lang['tests_steps_panel_edit'] = 'Create/Update Test steps';
 
+$lang['tests_index_thead_tip_up'] = 'Up';
+$lang['tests_index_thead_tip_down'] = 'Down';
+
 
 $lang['tests_steps_field_name'] = 'Name';
 $lang['tests_steps_field_description'] = 'Description';

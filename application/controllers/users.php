@@ -41,6 +41,7 @@ class Users extends CI_Controller {
         $data = getUserContext($this);
         $data['users'] = $this->users_model->get_users();
         $data['title'] = lang('users_index_title');
+        $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('users/index', $data);
@@ -85,8 +86,7 @@ class Users extends CI_Controller {
         }
 
         if ($this->form_validation->run() === FALSE) {
-            $this->load->model('roles_model');
-            $data['roles'] = $this->roles_model->get_roles();
+            $data['roles'] = $this->users_model->get_roles();
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
             $this->load->view('users/edit', $data);
@@ -161,9 +161,6 @@ class Users extends CI_Controller {
                     'Lastname' => $user['lastname']
                 );
                 $message = $this->parser->parse('emails/' . $user['language'] . '/password_reset', $data, TRUE);
-                if ($this->email->mailer_engine== 'phpmailer') {
-                    $this->email->phpmailer->Encoding = 'quoted-printable';
-                }
                 if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
                     $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
                 } else {
@@ -171,7 +168,8 @@ class Users extends CI_Controller {
                 }
                 $this->email->to($user['email']);
                 $this->email->subject(lang('email_password_reset_subject'));
-                $this->email->message($message);
+                $this->email->set_mailtype("html");
+                $this->email->message(htmlentities_htmltags($message));
                 $this->email->send();
                 
                 //Inform back the user by flash message
@@ -197,8 +195,7 @@ class Users extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('users_create_title');
-        $this->load->model('roles_model');
-        $data['roles'] = $this->roles_model->get_roles();
+        $data['roles'] = $this->users_model->get_roles();
 
         $this->form_validation->set_rules('firstname', lang('users_create_field_firstname'), 'required');
         $this->form_validation->set_rules('lastname', lang('users_create_field_lastname'), 'required');
@@ -232,10 +229,6 @@ class Users extends CI_Controller {
                 'Password' => $password
             );
             $message = $this->parser->parse('emails/' . $this->input->post('language') . '/new_user', $data, TRUE);
-            if ($this->email->mailer_engine== 'phpmailer') {
-                $this->email->phpmailer->Encoding = 'quoted-printable';
-            }
-
             if ($this->config->item('from_mail') != FALSE && $this->config->item('from_name') != FALSE ) {
                 $this->email->from($this->config->item('from_mail'), $this->config->item('from_name'));
             } else {
@@ -243,7 +236,8 @@ class Users extends CI_Controller {
             }
             $this->email->to($this->input->post('email'));
             $this->email->subject(lang('email_user_create_subject'));
-            $this->email->message($message);
+            $this->email->set_mailtype("html");
+            $this->email->message(htmlentities_htmltags($message));
             $this->email->send();
             
             $this->session->set_flashdata('msg', lang('users_create_flash_msg_success'));
@@ -260,9 +254,9 @@ class Users extends CI_Controller {
     public function login_check($login) {
         if (!$this->users_model->is_login_available($login)) {
             $this->form_validation->set_message('login_check', lang('users_create_login_check'));
-            return false;
+            return FALSE;
         } else {
-            return true;
+            return TRUE;
         }
     }
     

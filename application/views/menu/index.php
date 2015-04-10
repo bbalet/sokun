@@ -24,9 +24,11 @@ $this->lang->load('menu', $language);?>
         <h3><a href="<?php echo base_url();?>" style="text-decoration:none; color:black;"><img src="<?php echo base_url();?>assets/images/logo.png">&nbsp;<?php echo lang('menu_banner_slogan');?></a>
     </div>
     <div class="col-md-6 pull-right">
+        <div class="pull-right">
         <a href="#" title="<?php echo lang('menu_banner_tip_reset');?>" id="cmdChangeMyPwd"><span class="glyphicon glyphicon-lock"></span></a>
         &nbsp;
-        <?php echo lang('menu_banner_welcome');?> <?php echo $fullname;?>, <a href="<?php echo base_url();?>connection/logout"><?php echo lang('menu_banner_logout');?></a>     
+        <?php echo lang('menu_banner_welcome');?> <?php echo $fullname;?>, <a href="<?php echo base_url();?>connection/logout"><?php echo lang('menu_banner_logout');?></a>
+        </div>
     </div>
 </div>
 
@@ -88,6 +90,7 @@ $(function () {
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_tests_title');?> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="<?php echo base_url();?>tests"><?php echo lang('menu_tests_index');?></a></li>
+                  <li><a href="<?php echo base_url();?>tests/create"><?php echo lang('menu_tests_create');?></a></li>
                 </ul>
               </li>
             </ul>
@@ -97,6 +100,7 @@ $(function () {
                 <ul class="dropdown-menu">
                   <li><a href="<?php echo base_url();?>campaigns"><?php echo lang('menu_campaigns_index');?></a></li>
                   <li><a href="<?php echo base_url();?>campaigns/calendar"><?php echo lang('menu_campaigns_calendar');?></a></li>
+                  <li><a href="<?php echo base_url();?>campaigns/create"><?php echo lang('menu_campaigns_create');?></a></li>
                 </ul>
               </li>
             </ul>
