@@ -96,6 +96,18 @@ class Tests_model extends CI_Model {
         return $query->result_array();
     }
     
+    
+    /**
+     * Get ta test step
+     * @param int $step Identifier of step
+     * @return array record containing one test step
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function get_step($step) {
+        $query = $this->db->get_where('steps', array('id' => $id));
+        return $query->row_array();
+    }
+    
     /**
      * Get the maximum value in a list of test steps and for a given test
      * @param int $test test identifier
@@ -103,12 +115,57 @@ class Tests_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function get_steps_max($test) {
-        $this->db->select('max(steps.order) as max_order');
+        $this->db->select('max(steps.ord) as max_order');
         $query = $this->db->get_where('steps', array('test' => $test));
         $result = $query->row_array();
         return $result['max_order'];
     }
+
+    /**
+     * Move up a test step
+     * @param int $id Identifer of the step
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function up_step($id) {
+        $step = $this->get_step($id);
+        //Update the switched step
+        $sql = 'UPDATE steps
+                    INNER JOIN steps s
+                    SET steps.ord = steps.ord - 1
+                    WHERE steps.test = 1
+                    AND steps.id = s.id
+                    AND s.test = ' . $step['test'] . ' AND s.ord = ' . ($step['ord'] - 1);
+        $this->db->simple_query($sql);
+        //Update current step
+        $data = array(
+            'ord' => ($step['ord'] + 1)
+        );
+        $this->db->where('id', $id);
+        return $this->db->update('steps', $data);
+    }
     
+    /**
+     * Move down a test step
+     * @param int $id Identifer of the step
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function down_step($id) {
+        $step = $this->get_step($id);
+        //Update the switched step
+        $sql = 'UPDATE steps
+                    INNER JOIN steps s
+                    SET steps.ord = steps.ord + 1
+                    WHERE steps.test = 1
+                    AND steps.id = s.id
+                    AND s.test = ' . $step['test'] . ' AND s.ord = ' . ($step['ord'] - 1);
+        $this->db->simple_query($sql);
+        //Update current step
+        $data = array(
+            'ord' => ($step['ord'] - 1)
+        );
+        $this->db->where('id', $id);
+        return $this->db->update('steps', $data);
+    }
     
     /**
      * Insert a new test step

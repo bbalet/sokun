@@ -42,12 +42,12 @@ $this->lang->load('datatable', $language);
             <tr>
                 <td>&nbsp;
                     <div class="pull-right">
-                        <?php if ($step['order'] != $max) { ?>
-                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/step/<?php echo $step['id'] ?>/up" title="<?php echo lang('tests_index_thead_tip_up');?>"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                        <?php if ($step['ord'] != $max) { ?>
+                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/<?php echo $step['id'] ?>/up" title="<?php echo lang('tests_index_thead_tip_up');?>"><span class="glyphicon glyphicon-arrow-up"></span></a>
                         <?php } ?>
                         &nbsp;
-                        <?php if ($step['order'] != 0) { ?>
-                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/step/<?php echo $step['id'] ?>/down" title="<?php echo lang('tests_index_thead_tip_down');?>"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                        <?php if ($step['ord'] != 0) { ?>
+                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/<?php echo $step['id'] ?>/down" title="<?php echo lang('tests_index_thead_tip_down');?>"><span class="glyphicon glyphicon-arrow-down"></span></a>
                         <?php } ?>
                         &nbsp;
                         <a href="<?php echo base_url();?>tests/edit/<?php echo $test['id'] ?>" title="<?php echo lang('tests_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>

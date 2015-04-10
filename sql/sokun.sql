@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `tests` (
 CREATE TABLE IF NOT EXISTS `steps` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `test` int(11) NOT NULL,
-  `order` INT NOT NULL,
+  `ord` INT NOT NULL,
   `name` varchar(1024) NOT NULL,
   `action` text DEFAULT NULL,
   `expected` text DEFAULT NULL,

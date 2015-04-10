@@ -90,7 +90,16 @@ class Auth {
 
                 return true;
                 break;
+            
+            case 'steps_up' :
+            case 'steps_down' :
+            case 'steps_edit' :
+            case 'steps_create' :
+            case 'steps_delete' :
 
+                return true;
+                break;
+            
             //campaigns
             case 'campaigns_list' :
             case 'campaigns_create' :
