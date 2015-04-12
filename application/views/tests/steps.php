@@ -18,17 +18,32 @@
 $this->lang->load('users', $language);
 $this->lang->load('datatable', $language);
 ?>
+
+
 <div class="row-fluid">
     <div class="col-md-12">
+            <h1><?php echo lang('tests_steps_title');?>&nbsp;<span class="text-muted"><?php echo $test['name'];?></span></h1>
+            <?php echo $flash_partial_view;?>
+     </div>
+</div>
 
-        <h1><?php echo lang('tests_steps_title');?>&nbsp;<span class="text-muted"><?php echo $test['name'];?></span></h1>
-        
-        <?php echo $flash_partial_view;?>
+<div class="row-fluid">
+    <div class="col-md-12">
+        <a href="<?php echo base_url();?>tests" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left glyphicon-white"></span>&nbsp;<?php echo lang('tests_steps_button_back');?></a>
+        &nbsp;
+        <button id="cmdAddStep" class="btn btn-primary"><span class="glyphicon glyphicon-plus glyphicon-white"></span>&nbsp;<?php echo lang('tests_steps_button_new');?></button>
+        &nbsp;
+        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/export" class="btn btn-primary"><span class="glyphicon glyphicon-save-file glyphicon-white"></span>&nbsp;<?php echo lang('tests_steps_button_export');?></a>
+        &nbsp;
+        <button id="cmdShowDescription" class="btn btn-primary"><span class="glyphicon glyphicon-info-sign glyphicon-white"></span>&nbsp;<?php echo lang('tests_steps_button_description');?></button>
+     </div>
+</div>
 
-  <div class="panel panel-default">
-    <div class="panel-heading"><?php echo lang('tests_steps_panel_steps');?></div>
-        <div class="panel-body">
-        <table cellpadding="0" cellspacing="0" border="0" class="display" id="tests" width="100%">
+<div class="row-fluid"><div class="col-md-12">&nbsp;</div></div>
+
+<div class="row-fluid">
+    <div class="col-md-12">
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="steps" width="100%">
             <thead>
                 <tr>
                     <th>&nbsp;</th>
@@ -39,20 +54,24 @@ $this->lang->load('datatable', $language);
             </thead>
             <tbody>
         <?php foreach ($steps as $step): ?>
-            <tr>
-                <td>&nbsp;
+            <tr data-id="<?php echo $step['id'] ?>">
+                <td data-order="<?php echo $step['ord']; ?>">&nbsp;
                     <div class="pull-right">
+                        <?php if ($step['ord'] != 1) { ?>
+                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/<?php echo $step['id'] ?>/up" title="<?php echo lang('tests_steps_thead_tip_up');?>"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                        <?php } ?>
+                        &nbsp;
                         <?php if ($step['ord'] != $max) { ?>
-                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/<?php echo $step['id'] ?>/up" title="<?php echo lang('tests_index_thead_tip_up');?>"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/<?php echo $step['id'] ?>/down" title="<?php echo lang('tests_steps_thead_tip_down');?>"><span class="glyphicon glyphicon-arrow-down"></span></a>
                         <?php } ?>
                         &nbsp;
-                        <?php if ($step['ord'] != 0) { ?>
-                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/<?php echo $step['id'] ?>/down" title="<?php echo lang('tests_index_thead_tip_down');?>"><span class="glyphicon glyphicon-arrow-down"></span></a>
-                        <?php } ?>
+                        <a href="#" class="step-edit" data-id="<?php echo $step['id'];?>" title="<?php echo lang('tests_steps_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
                         &nbsp;
-                        <a href="<?php echo base_url();?>tests/edit/<?php echo $test['id'] ?>" title="<?php echo lang('tests_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="#" class="step-duplicate" data-id="<?php echo $step['id'];?>" title="<?php echo lang('tests_steps_thead_tip_duplicate');?>"><span class="glyphicon glyphicon-duplicate"></span></a>
                         &nbsp;
-                        <a href="#" class="confirm-delete" data-id="<?php echo $test['id'];?>" title="<?php echo lang('tests_index_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="#" class="confirm-delete" data-id="<?php echo $step['id'];?>" title="<?php echo lang('tests_steps_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
+                        &nbsp;
+                        <?php echo $step['ord']; ?>
                     </div>
                 </td>
                 <td><?php echo $step['name'] ?></td>
@@ -62,50 +81,63 @@ $this->lang->load('datatable', $language);
         <?php endforeach ?>
                 </tbody>
         </table>
+
+<div id="frmEditStep" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h3><?php echo lang('tests_steps_popup_edit_title');?></h3>
+            </div>
+            <div id="" class="modal-body">
+                <form id="frmCreateStep"  class='form-horizontal' method="POST" accept-charset="UTF-8">
+                    <div class="form-group">
+                       <label for="name" class="col-sm-2 control-label"><?php echo lang('tests_steps_field_name');?></label>
+                       <div class="col-sm-10">
+                           <input type="text" class="form-control" name="name" id="name" placeholder="<?php echo lang('tests_create_field_name');?>" autofocus required />
+                       </div>
+                   </div>
+                    <div class="form-group">
+                       <label for="action" class="col-sm-2 control-label"><?php echo lang('tests_steps_field_action');?></label>
+                       <div class="col-sm-10">
+                           <textarea type="text" name="action" id="action"></textarea>
+                       </div>
+                   </div>
+                     <div class="form-group">
+                       <label for="expected" class="col-sm-2 control-label"><?php echo lang('tests_steps_field_expected');?></label>
+                       <div class="col-sm-10">
+                           <textarea type="text" name="expected" id="expected"></textarea>
+                       </div>
+                   </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cmdSubmitForm" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk glyphicon-white"></span>&nbsp;<?php echo lang('tests_steps_button_add');?></button>
+                &nbsp;
+                <button  data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove glyphicon-white"></span>&nbsp;<?php echo lang('tests_steps_button_cancel');?></button>
+            </div>
+        </div>
+    </div>
+</div>
+        
+<!-- Test description -->
+<div id="frmTestDescription" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><?php echo lang('tests_steps_popup_test_description_title');?></h4>
+      </div>
+      <div class="modal-body">
+        <?php echo $test['description'];?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('tests_steps_popup_test_button_close');?></button>
+      </div>
+    </div>
   </div>
 </div>
-
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title"><?php echo lang('tests_steps_panel_edit');?></h3>
-  </div>
-  <div class="panel-body">
-         <div class="form-group">
-            <label for="name" class="col-sm-2 control-label"><?php echo lang('tests_create_field_name');?></label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="name" id="name" placeholder="<?php echo lang('tests_create_field_name');?>" autofocus required />
-            </div>
-        </div>
-         <div class="form-group">
-            <label for="action" class="col-sm-2 control-label"><?php echo lang('tests_create_field_description');?></label>
-            <div class="col-sm-10">
-                <textarea type="text" name="action" id="action"></textarea>
-            </div>
-        </div>
-          <div class="form-group">
-            <label for="expected" class="col-sm-2 control-label"><?php echo lang('tests_create_field_description');?></label>
-            <div class="col-sm-10">
-                <textarea type="text" name="expected" id="expected"></textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk glyphicon-white"></span>&nbsp;<?php echo lang('tests_create_button_create');?></button>
-                &nbsp;
-                <a href="<?php echo base_url();?>tests" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove glyphicon-white"></span>&nbsp;<?php echo lang('tests_create_button_cancel');?></a>
-            </div>
-        </div>
-
-  </div>
-</div>
-
-        <div class="row-fluid">
-            <div class="col-md-12">
-                <a href="<?php echo base_url();?>tests/create" class="btn btn-primary"><span class="glyphicon glyphicon-plus glyphicon-white"></span>&nbsp;<?php echo lang('tests_index_button_create');?></a>
-                &nbsp;
-                <a href="<?php echo base_url();?>tests/export" class="btn btn-primary"><span class="glyphicon glyphicon-save-file glyphicon-white"></span>&nbsp;<?php echo lang('tests_index_button_export');?></a>
-             </div>
-        </div>
+        
     </div>
 </div>
 
@@ -118,12 +150,11 @@ $this->lang->load('datatable', $language);
 <link rel="stylesheet" href="<?php echo base_url();?>assets/ckeditor/skins/moono/dialog.css">
 <script src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
+    var action;
+    var expected;
 $(document).ready(function() {
     //Transform the HTML table
-    $('#tests').dataTable({
-            /*"aoColumnDefs": [
-              { 'bSortable': false }, null, null, null
-            ],*/
+    $('#steps').dataTable({
             "oLanguage": {
                 "sEmptyTable":     "<?php echo lang('datatable_sEmptyTable');?>",
                 "sInfo":           "<?php echo lang('datatable_sInfo');?>",
@@ -149,7 +180,7 @@ $(document).ready(function() {
             }
         });
         
-     editor = CKEDITOR.replace( 'action', {
+     action = CKEDITOR.replace( 'action', {
         language: '<?php echo $language_code;?>',
         toolbarStartupExpanded : false,
         toolbarGroups : [
@@ -162,7 +193,7 @@ $(document).ready(function() {
             ]
     });
     
-   editor = CKEDITOR.replace( 'expected', {
+   expected = CKEDITOR.replace( 'expected', {
         language: '<?php echo $language_code;?>',
         toolbarStartupExpanded : false,
         toolbarGroups : [
@@ -174,13 +205,57 @@ $(document).ready(function() {
 	{ name: 'others' }
             ]
     });
-        
-        
+    
+    //Add a step
+    $('#cmdAddStep').click(function() {
+         $("#frmCreateStep").attr("action", "<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/add");
+         $("#cmdSubmitForm").html('<?php echo lang('tests_steps_button_add');?>');
+         $("#name").val('');
+         action.setData('');
+         expected.setData('');
+         $('#frmEditStep').modal('show');
+    });
+    
+    //Edit a step
+    $('.step-edit').click(function() {
+        var id = $(this).data('id');
+         $("#frmCreateStep").attr("action", '<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/' + id + '/edit');
+         $("#cmdSubmitForm").html('<?php echo lang('tests_steps_button_update');?>');
+         var nameValue = $('#steps tr[data-id="' + id + '"] td:eq(1)').text();
+         var actionValue = $('#steps tr[data-id="' + id + '"] td:eq(2)').html();
+         var expectedValue = $('#steps tr[data-id="' + id + '"] td:eq(3)').html();
+         $("#name").val(nameValue);
+         action.setData(actionValue);
+         expected.setData(expectedValue);
+         $('#frmEditStep').modal('show');
+    });
+    
+    //Submit the Edit/Add a step form
+    $('#cmdSubmitForm').click(function() {
+        if ($("#name").val() == "") {
+            bootbox.alert('<?php echo lang('tests_steps_js_msg_field_mandatory');?>');
+        } else {
+            $('#frmCreateStep').submit();
+        }
+    });
+    
+    //Show Test description
+    $('#cmdShowDescription').click(function() {
+        $('#frmTestDescription').modal('show');
+    });
+
+    //Duplicate a step
+    $('.step-duplicate').click(function() {
+        var id = $(this).data('id');
+        document.location = '<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/' + id + '/duplicate';
+    });
+
+    //Delete a step
     $('.confirm-delete').click(function() {
         var id = $(this).data('id');
         bootbox.confirm("<?php echo lang('global_msg_delete_confirmation');?>", function(result) {
             if (result) {
-                document.location = '<?php echo base_url();?>tests/' + id + '/delete';
+                document.location = '<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/' + id + '/delete';
             }
         });
     });

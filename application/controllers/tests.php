@@ -131,7 +131,7 @@ class Tests extends CI_Controller {
     }
     
     /**
-     * Update a test. Rules are checked on client side
+     * List the steps of a test
      * @param int $id Identifier of the test
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
@@ -148,22 +148,6 @@ class Tests extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('tests/steps');
         $this->load->view('templates/footer');
-        
-        
-        //$this->load->helper('form');
-        //$this->load->library('form_validation');
-        //$this->form_validation->set_rules('name', lang('tests_edit_field_name'), 'required');
-        /*if ($this->form_validation->run() === FALSE) {
-            $data['title'] = lang('tests_edit_title');
-            $this->load->view('templates/header', $data);
-            $this->load->view('menu/index', $data);
-            $this->load->view('tests/edit');
-            $this->load->view('templates/footer');
-        } else {
-            $this->tests_model->update_tests($id);
-            $this->session->set_flashdata('msg', lang('tests_edit_flash_msg_success'));
-            redirect('tests');
-        }*/
     }
     
     /**

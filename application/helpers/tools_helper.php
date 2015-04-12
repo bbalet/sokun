@@ -1,4 +1,7 @@
-<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 /*
  * This file is part of Sokun.
  *
@@ -22,19 +25,18 @@
  * @param reference to CI Controller object
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function setUserContext($controller)
-{
-        if (!$controller->session->userdata('logged_in')) {
-            $controller->session->set_userdata('last_page', current_url());
-            redirect('connection/login');
-        }
-        $controller->fullname = $controller->session->userdata('firstname') . ' ' .
-                $controller->session->userdata('lastname');
-        $controller->is_manager = $controller->session->userdata('is_manager');
-        $controller->is_admin = $controller->session->userdata('is_admin');
-        $controller->user_id = $controller->session->userdata('id');
-        $controller->language = $controller->session->userdata('language');
-        $controller->language_code = $controller->session->userdata('language_code');
+function setUserContext($controller) {
+    if (!$controller->session->userdata('logged_in')) {
+        $controller->session->set_userdata('last_page', current_url());
+        redirect('connection/login');
+    }
+    $controller->fullname = $controller->session->userdata('firstname') . ' ' .
+            $controller->session->userdata('lastname');
+    $controller->is_manager = $controller->session->userdata('is_manager');
+    $controller->is_admin = $controller->session->userdata('is_admin');
+    $controller->user_id = $controller->session->userdata('id');
+    $controller->language = $controller->session->userdata('language');
+    $controller->language_code = $controller->session->userdata('language_code');
 }
 
 /**
@@ -43,14 +45,13 @@ function setUserContext($controller)
  * @return array data to be passed to the view
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function getUserContext($controller)
-{
+function getUserContext($controller) {
     $data['fullname'] = $controller->fullname;
     $data['is_manager'] = $controller->is_manager;
     $data['is_admin'] = $controller->is_admin;
-    $data['user_id'] =  $controller->user_id;
+    $data['user_id'] = $controller->user_id;
     $data['language'] = $controller->session->userdata('language');
-    $data['language_code'] =  $controller->session->userdata('language_code');
+    $data['language_code'] = $controller->session->userdata('language_code');
     return $data;
 }
 
@@ -77,8 +78,7 @@ function expires_now() {
  * @return string htmlentities in PHP but by preserving html tags
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function htmlentities_htmltags($input_string)
-{
+function htmlentities_htmltags($input_string) {
     $list = get_html_translation_table(HTML_ENTITIES);
     unset($list['"']);
     unset($list['<']);

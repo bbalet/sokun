@@ -74,14 +74,15 @@ $route['tests/export'] = 'tests/export';
 $route['tests/create'] = 'tests/create';
 $route['tests/(:num)/edit'] = 'tests/edit/$1';
 $route['tests/(:num)/delete'] = 'tests/delete/$1';
-$route['tests/(:num)/steps'] = 'tests/steps/$1';
 
 //Steps
+$route['tests/(:num)/steps'] = 'tests/steps/$1';
 $route['tests/(:num)/steps/export'] = 'steps/export/$1';
 $route['tests/(:num)/steps/add'] = 'steps/add/$1';
 $route['tests/(:num)/steps/(:num)/up'] = 'steps/up/$1/$2';
 $route['tests/(:num)/steps/(:num)/down'] = 'steps/down/$1/$2';
 $route['tests/(:num)/steps/(:num)/edit'] = 'steps/edit/$1/$2';
+$route['tests/(:num)/steps/(:num)/duplicate'] = 'steps/duplicate/$1/$2';
 $route['tests/(:num)/steps/(:num)/delete'] = 'steps/delete/$1/$2';
 
 //Campaigns

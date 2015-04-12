@@ -94,7 +94,8 @@ class Auth {
             case 'steps_up' :
             case 'steps_down' :
             case 'steps_edit' :
-            case 'steps_create' :
+            case 'steps_copy' :
+            case 'steps_add' :
             case 'steps_delete' :
 
                 return true;

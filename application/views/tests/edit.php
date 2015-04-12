@@ -45,6 +45,8 @@
                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk glyphicon-white"></span>&nbsp;<?php echo lang('tests_edit_button_update');?></button>
                 &nbsp;
                 <a href="<?php echo base_url();?>tests" class="btn btn-danger"><span class="glyphicon glyphicon-floppy-remove glyphicon-white"></span>&nbsp;<?php echo lang('tests_edit_button_cancel');?></a>
+                &nbsp;
+                <a href="<?php echo base_url();?>tests/<?php echo $test['id'];?>/steps" class="btn btn-primary"><span class="glyphicon glyphicon-list glyphicon-white"></span>&nbsp;<?php echo lang('tests_edit_button_steps');?></a>
             </div>
         </div>
         </form>

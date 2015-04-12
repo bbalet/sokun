@@ -41,9 +41,11 @@ $this->lang->load('global', $language);?>
                     <?php echo $test['assoc_id'] ?>
                     &nbsp;
                     <div class="pull-right">
-                        <a href="<?php echo base_url();?>campaigns/<?php echo $campaign_id; ?>/tests/<?php echo $test['id'] ?>/edit" title="<?php echo lang('campaigns_tests_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="<?php echo base_url();?>tests/<?php echo $test['id'] ?>/edit" title="<?php echo lang('campaigns_tests_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
                         &nbsp;
                         <a href="<?php echo base_url();?>campaigns/<?php echo $campaign_id; ?>/tests/remove/<?php echo $test['assoc_id'] ?>"><?php echo lang('campaigns_tests_thead_tip_remove');?></a>
+                        &nbsp;
+                        <!--glyphicon glyphicon-play//-->
                     </div>
                 </td>
                 <td>(<?php echo $test['id'] ?>) <?php echo $test['name'] ?></td>

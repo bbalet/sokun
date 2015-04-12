@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `stepsexecution` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `testexecution` int(11) NOT NULL,
   `status` int(11)  NULL,
+  `ord` INT NOT NULL,
   `name` varchar(1024) NOT NULL,
   `action` text DEFAULT NULL,
   `expected` text DEFAULT NULL,

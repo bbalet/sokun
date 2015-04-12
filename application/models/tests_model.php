@@ -93,6 +93,7 @@ class Tests_model extends CI_Model {
      */
     public function get_steps($test) {
         $query = $this->db->get_where('steps', array('test' => $test));
+        $this->db->order_by('ord', 'asc'); 
         return $query->result_array();
     }
     
@@ -104,7 +105,7 @@ class Tests_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function get_step($step) {
-        $query = $this->db->get_where('steps', array('id' => $id));
+        $query = $this->db->get_where('steps', array('id' => $step));
         return $query->row_array();
     }
     
@@ -131,14 +132,14 @@ class Tests_model extends CI_Model {
         //Update the switched step
         $sql = 'UPDATE steps
                     INNER JOIN steps s
-                    SET steps.ord = steps.ord - 1
+                    SET steps.ord = steps.ord + 1
                     WHERE steps.test = 1
                     AND steps.id = s.id
                     AND s.test = ' . $step['test'] . ' AND s.ord = ' . ($step['ord'] - 1);
         $this->db->simple_query($sql);
         //Update current step
         $data = array(
-            'ord' => ($step['ord'] + 1)
+            'ord' => ($step['ord'] - 1)
         );
         $this->db->where('id', $id);
         return $this->db->update('steps', $data);
@@ -154,28 +155,31 @@ class Tests_model extends CI_Model {
         //Update the switched step
         $sql = 'UPDATE steps
                     INNER JOIN steps s
-                    SET steps.ord = steps.ord + 1
+                    SET steps.ord = steps.ord - 1
                     WHERE steps.test = 1
                     AND steps.id = s.id
-                    AND s.test = ' . $step['test'] . ' AND s.ord = ' . ($step['ord'] - 1);
+                    AND s.test = ' . $step['test'] . ' AND s.ord = ' . ($step['ord'] + 1);
         $this->db->simple_query($sql);
         //Update current step
         $data = array(
-            'ord' => ($step['ord'] - 1)
+            'ord' => ($step['ord'] + 1)
         );
         $this->db->where('id', $id);
         return $this->db->update('steps', $data);
     }
     
     /**
-     * Insert a new test step
+     * Add a new test step to a test
      * Inserted data are coming from an HTML form
+     * @param int $test Identifier of the test
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function set_steps() {
+    public function add_step($test) {
+        $ord = $this->get_steps_max($test) + 1;
         $data = array(
-            'test' => $this->input->post('test'),
+            'test' => $test,
+            'ord' => $ord,
             'name' => $this->input->post('name'),
             'action' => $this->input->post('action'),
             'expected' => $this->input->post('expected')
@@ -184,11 +188,67 @@ class Tests_model extends CI_Model {
     }
     
     /**
-     * Delete the steps of a test from the database
+     * Update a step with data coming from an HTML form
+     * @param int $id Identifer of the step
+     * @return int number of affected rows
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function update_step($step) {
+        $data = array(
+            'name' => $this->input->post('name'),
+            'action' => $this->input->post('action'),
+            'expected' => $this->input->post('expected')
+        );
+        $this->db->where('id', $step);
+        return $this->db->update('steps', $data);
+    }
+    
+    /**
+     * Copy a step (within the same test) at the end of the list
+     * @param int $id Identifer of the step
+     * @return int number of affected rows
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function duplicate_step($step) {
+        $source = $this->get_step($step);
+        $ord = $this->get_steps_max($source['test']) + 1;
+        $data = array(
+            'test' => $source['test'],
+            'ord' => $ord,
+            'name' => $source['name'],
+            'action' => $source['action'],
+            'expected' => $source['expected']
+        );
+        return $this->db->insert('steps', $data);
+    }
+    
+    /**
+     * Delete all the steps of a test from the database
      * @param int $test test identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function delete_steps($test) {
         $query = $this->db->delete('steps', array('test' => $test));
+    }
+    
+    /**
+     * Delete a the step from the database
+     * @param int $step step identifier
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function delete_step($step) {
+        $source = $this->get_step($step);
+        $query = $this->db->delete('steps', array('id' => $step));
+        //Re-order the other steps
+        $steps = $this->get_steps($source['test']);
+        $ii = 1;
+        foreach ($steps as $step) {
+            $data = array(
+                'ord' => $ii
+            );
+            $this->db->where('id', $step['id']);
+            $this->db->update('steps', $data);
+            $ii++;
+        }
     }
 }

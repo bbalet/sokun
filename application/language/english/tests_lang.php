@@ -39,6 +39,7 @@ $lang['tests_edit_field_name'] = 'Name';
 $lang['tests_edit_field_description'] = 'Description';
 $lang['tests_edit_button_cancel'] = 'Cancel';
 $lang['tests_edit_button_update'] = 'Update';
+$lang['tests_edit_button_steps'] = 'Steps';
 $lang['tests_edit_flash_msg_success'] = 'The test has been succesfully updated.';
 
 $lang['tests_export_title'] = 'Test cases';
@@ -49,25 +50,39 @@ $lang['tests_export_thead_description'] = 'Description';
 
 $lang['tests_delete_flash_msg_success'] = 'The test has been succesfully deleted.';
 
-$lang['tests_steps_title'] = 'Edit the test steps';
-$lang['tests_steps_panel_steps'] = 'Test steps';
+$lang['tests_steps_title'] = 'Edit test steps';
 $lang['tests_steps_thead_name'] = 'Name';
 $lang['tests_steps_thead_action'] = 'Action';
 $lang['tests_steps_thead_expected'] = 'Expected result';
-$lang['tests_steps_panel_edit'] = 'Create/Update Test steps';
-
-$lang['tests_index_thead_tip_up'] = 'Up';
-$lang['tests_index_thead_tip_down'] = 'Down';
-
-
+$lang['tests_steps_thead_tip_up'] = 'Up';
+$lang['tests_steps_thead_tip_down'] = 'Down';
+$lang['tests_steps_thead_tip_edit'] = 'Edit';
+$lang['tests_steps_thead_tip_duplicate'] = 'Duplicate';
+$lang['tests_steps_thead_tip_delete'] = 'Delete';
+$lang['tests_steps_popup_edit_title'] = 'Create/Update Test steps';
 $lang['tests_steps_field_name'] = 'Name';
-$lang['tests_steps_field_description'] = 'Description';
+$lang['tests_steps_field_action'] = 'Action';
+$lang['tests_steps_field_expected'] = 'Expected';
+$lang['tests_steps_js_msg_field_mandatory'] = 'The field <Name> is mandatory';
 $lang['tests_steps_button_cancel'] = 'Cancel';
 $lang['tests_steps_button_update'] = 'Update';
-
-$lang['tests_steps_button_new'] = 'New step';
+$lang['tests_steps_button_add'] = 'Add';
 $lang['tests_steps_button_back'] = 'Back to tests';
-
+$lang['tests_steps_button_new'] = 'New step';
+$lang['tests_steps_button_export'] = 'Export this test';
+$lang['tests_steps_button_description'] = 'Description';
+$lang['tests_steps_popup_test_description_title'] = 'Test description';
+$lang['tests_steps_popup_test_button_close'] = 'Close';
 $lang['tests_steps_flash_msg_add_success'] = 'The step has been succesfully added.';
 $lang['tests_steps_flash_msg_update_success'] = 'The step has been succesfully updated.';
-$lang['tests_steps_flash_msg_remove_success'] = 'The step has been succesfully removed.';
+$lang['tests_steps_flash_msg_delete_success'] = 'The step has been succesfully deleted.';
+$lang['tests_steps_flash_msg_duplicate_success'] = 'The step has been succesfully duplicated.';
+
+$lang['tests_steps_export_worsheet_test'] = 'Test';
+$lang['tests_steps_export_worsheet_steps'] = 'Steps';
+$lang['tests_steps_export_test_name'] = 'Test name';
+$lang['tests_steps_export_test_description'] = 'Description';
+$lang['tests_steps_export_thead_order'] = 'Order';
+$lang['tests_steps_export_thead_name'] = 'Name';
+$lang['tests_steps_export_thead_action'] = 'Action';
+$lang['tests_steps_export_thead_expected'] = 'Expected result';
