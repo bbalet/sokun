@@ -81,9 +81,11 @@ CREATE TABLE IF NOT EXISTS `campaigntests` (
 CREATE TABLE IF NOT EXISTS `testexecution` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `campaigntest` int(11) NOT NULL,
-  `executiondate` datetime NULL,
+  `name` varchar(1024) NOT NULL,
+  `description` text DEFAULT NULL,
+  `executiondate` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `executed_by` int(11) NOT NULL,
-  `status` int(11)  NULL,
+  `status` int(11)  NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `creator` (`campaigntest`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
@@ -94,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `testexecution` (
 CREATE TABLE IF NOT EXISTS `stepsexecution` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `testexecution` int(11) NOT NULL,
-  `status` int(11)  NULL,
+  `status` int(11)  NULL DEFAULT '1',
   `ord` INT NOT NULL,
   `name` varchar(1024) NOT NULL,
   `action` text DEFAULT NULL,

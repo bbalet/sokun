@@ -97,6 +97,11 @@ $route['campaigns/(:num)/tests/add/(:num)'] = 'campaigns/add_test/$1/$2';
 $route['campaigns/calendar'] = 'campaigns/calendar';
 $route['campaigns/calfeed'] = 'campaigns/calfeed';
 
+//executions
+$route['campaigns/(:num)/tests/(:num)/execute'] = 'executions/execute/$1/$2';
+$route['campaigns/(:num)/tests/(:num)/executions'] = 'executions/executions/$1/$2';
+$route['campaigns/(:num)/executions/(:num)/edit'] = 'executions/edit/$1/$2';
+
 //REST API
 $route['api/tests'] = 'api/getTests';
 $route['api/tests/(:num)/steps'] = 'api/getSteps/$1';

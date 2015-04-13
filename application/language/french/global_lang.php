@@ -28,3 +28,9 @@ $lang['global_datetime_format'] = 'd/m/Y H:i';
 
 $lang['footer_link_go_top'] = 'Aller en haut';
 $lang['footer_copyright_notice'] = '&copy; 2014 Les auteurs de Sokun &middot; Gestionnaire de cas de test';
+
+//Global statuses
+$lang['Not Run'] = 'Non exécuté';
+$lang['Passed'] = 'Succès';
+$lang['Failed'] = 'Echec';
+$lang['N/A'] = 'N/A';

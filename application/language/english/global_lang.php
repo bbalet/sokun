@@ -28,3 +28,9 @@ $lang['global_datetime_format'] = 'm/d/Y H:i';
 
 $lang['footer_link_go_top'] = 'Go top';
 $lang['footer_copyright_notice'] = '&copy; 2014 Sokun Authors &middot; Test Case Management System';
+
+//Global statuses
+$lang['Not Run'] = 'Not Run';
+$lang['Passed'] = 'Passed';
+$lang['Failed'] = 'Failed';
+$lang['N/A'] = 'N/A';

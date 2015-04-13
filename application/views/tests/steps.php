@@ -15,9 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with sokun. If not, see <http://www.gnu.org/licenses/>.
  */
-$this->lang->load('users', $language);
-$this->lang->load('datatable', $language);
-?>
+$this->lang->load('datatable', $language);?>
 
 
 <div class="row-fluid">
@@ -100,13 +98,13 @@ $this->lang->load('datatable', $language);
                     <div class="form-group">
                        <label for="action" class="col-sm-2 control-label"><?php echo lang('tests_steps_field_action');?></label>
                        <div class="col-sm-10">
-                           <textarea type="text" name="action" id="action"></textarea>
+                           <textarea name="action" id="action"></textarea>
                        </div>
                    </div>
                      <div class="form-group">
                        <label for="expected" class="col-sm-2 control-label"><?php echo lang('tests_steps_field_expected');?></label>
                        <div class="col-sm-10">
-                           <textarea type="text" name="expected" id="expected"></textarea>
+                           <textarea name="expected" id="expected"></textarea>
                        </div>
                    </div>
                 </form>

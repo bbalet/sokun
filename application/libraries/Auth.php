@@ -112,6 +112,13 @@ class Auth {
                 return true;
                 break;
             
+            //executions
+            case 'executions_execute' :
+            case 'executions_edit' :
+            case 'executions_executions' :
+                return true;
+                break;
+            
             default:
                 return false;
                 break;
