@@ -121,20 +121,19 @@ class Steps extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function export($id) {
-        //TODO tokenize the HTML message and convert it using Rich Text runner
-//        $this->load->helper('html');
-//        $test = $this->tests_model->get_tests($id);
-//        $domArray = getHtmlDomArray($test['description']);
-//        echo var_dump($domArray);
         expires_now();
         $this->load->library('excel');
+        $this->load->helper('html');
+        $this->load->helper('richtext');
         $this->excel->setActiveSheetIndex(0);
         $this->excel->getActiveSheet()->setTitle(lang('tests_steps_export_worsheet_test'));
         $this->excel->getActiveSheet()->setCellValue('A1', lang('tests_steps_export_test_name'));
         $this->excel->getActiveSheet()->setCellValue('A2', lang('tests_steps_export_test_description'));
         $test = $this->tests_model->get_tests($id);
         $this->excel->getActiveSheet()->setCellValue('B1', $test['name']);
-        $this->excel->getActiveSheet()->setCellValue('B2', $test['description']);       
+        $this->excel->getActiveSheet()->setCellValue('B2', createRichText($test['description']));
+        $this->excel->getActiveSheet()->getStyle('B2')->getAlignment()->setWrapText(true);        
+        
         $this->excel->createSheet(1);
         $this->excel->setActiveSheetIndex(1);
         $this->excel->getActiveSheet()->setTitle(lang('tests_steps_export_worsheet_steps'));
@@ -150,8 +149,10 @@ class Steps extends CI_Controller {
         foreach ($steps as $step) {
             $this->excel->getActiveSheet()->setCellValue('A' . $line, $step['ord']);
             $this->excel->getActiveSheet()->setCellValue('B' . $line, $step['name']);
-            $this->excel->getActiveSheet()->setCellValue('C' . $line, $step['action']);
-            $this->excel->getActiveSheet()->setCellValue('D' . $line, $step['expected']);
+            $this->excel->getActiveSheet()->setCellValue('C' . $line, createRichText($step['action']));
+            $this->excel->getActiveSheet()->setCellValue('D' . $line, createRichText($step['expected']));
+            $this->excel->getActiveSheet()->getStyle('C' . $line)->getAlignment()->setWrapText(true);
+            $this->excel->getActiveSheet()->getStyle('D' . $line)->getAlignment()->setWrapText(true);
             $line++;
         }
         

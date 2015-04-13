@@ -157,6 +157,8 @@ class Tests extends CI_Controller {
     public function export() {
         expires_now();
         $this->load->library('excel');
+        $this->load->helper('html');
+        $this->load->helper('richtext');
         $this->excel->setActiveSheetIndex(0);
         $this->excel->getActiveSheet()->setTitle(lang('tests_export_title'));
         $this->excel->getActiveSheet()->setCellValue('A1', lang('tests_export_thead_id'));
@@ -172,7 +174,8 @@ class Tests extends CI_Controller {
             $this->excel->getActiveSheet()->setCellValue('A' . $line, $test['id']);
             $this->excel->getActiveSheet()->setCellValue('B' . $line, $test['name']);
             $this->excel->getActiveSheet()->setCellValue('C' . $line, $test['creator_name']);
-            $this->excel->getActiveSheet()->setCellValue('D' . $line, $test['description']);
+            $this->excel->getActiveSheet()->setCellValue('D' . $line, createRichText($test['description']));
+            $this->excel->getActiveSheet()->getStyle('D' . $line)->getAlignment()->setWrapText(true);
             $line++;
         }
         

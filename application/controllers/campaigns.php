@@ -196,6 +196,8 @@ class Campaigns extends CI_Controller {
     public function export() {
         expires_now();
         $this->load->library('excel');
+        $this->load->helper('html');
+        $this->load->helper('richtext');
         $this->excel->setActiveSheetIndex(0);
         $this->excel->getActiveSheet()->setTitle(lang('campaigns_export_title'));
         $this->excel->getActiveSheet()->setCellValue('A1', lang('campaigns_export_thead_id'));
@@ -217,7 +219,8 @@ class Campaigns extends CI_Controller {
             $this->excel->getActiveSheet()->setCellValue('B' . $line, $campaign['name']);
             $this->excel->getActiveSheet()->setCellValue('C' . $line, $startdate);
             $this->excel->getActiveSheet()->setCellValue('D' . $line, $enddate);
-            $this->excel->getActiveSheet()->setCellValue('E' . $line, $campaign['description']);
+            $this->excel->getActiveSheet()->setCellValue('E' . $line, createRichText($campaign['description']));
+            $this->excel->getActiveSheet()->getStyle('E' . $line)->getAlignment()->setWrapText(true);
             $line++;
         }
         
@@ -242,6 +245,8 @@ class Campaigns extends CI_Controller {
     public function export_tests($id) {
         expires_now();
         $this->load->library('excel');
+        $this->load->helper('html');
+        $this->load->helper('richtext');
         $this->excel->setActiveSheetIndex(0);
         $this->excel->getActiveSheet()->setTitle(lang('campaigns_tests_export_title'));
         
@@ -260,7 +265,8 @@ class Campaigns extends CI_Controller {
         foreach ($tests as $test) {
             $this->excel->getActiveSheet()->setCellValue('A' . $line, $test['id']);
             $this->excel->getActiveSheet()->setCellValue('B' . $line, $test['name']);
-            $this->excel->getActiveSheet()->setCellValue('C' . $line, $test['description']);
+            $this->excel->getActiveSheet()->setCellValue('C' . $line, createRichText($test['description']));
+            $this->excel->getActiveSheet()->getStyle('C' . $line)->getAlignment()->setWrapText(true);
             $line++;
         }
         
