@@ -22,7 +22,22 @@ $lang['executions_index_thead_datetime'] = 'Execution date';
 $lang['executions_index_thead_executed_by'] = 'Executed by';
 $lang['executions_index_thead_status'] = 'Status';
 $lang['executions_index_thead_tip_edit'] = 'edit';
+$lang['executions_index_thead_tip_view'] = 'view';
+$lang['executions_index_thead_tip_delete'] = 'delete';
 $lang['executions_index_button_back'] = 'Back to tests';
+
+$lang['executions_view_title'] = 'Test execution';
+$lang['executions_view_field_test_status'] = 'Test status';
+$lang['executions_view_thead_order'] = '#';
+$lang['executions_view_thead_name'] = 'Name';
+$lang['executions_view_thead_action'] = 'Action';
+$lang['executions_view_thead_expected'] = 'Expected result';
+$lang['executions_view_thead_actual'] = 'Actual result';
+$lang['executions_view_thead_status'] = 'Execution status';
+$lang['executions_view_button_back'] = 'Back to executions';
+$lang['executions_view_button_description'] = 'Description';
+$lang['executions_view_popup_test_description_title'] = 'Description of the test case';
+$lang['executions_view_popup_test_button_close'] = 'Close';
 
 $lang['executions_edit_title'] = 'Test execution';
 $lang['executions_edit_field_test_status'] = 'Test status';
@@ -38,5 +53,7 @@ $lang['executions_edit_button_description'] = 'Description';
 $lang['executions_edit_popup_test_description_title'] = 'Description of the test case';
 $lang['executions_edit_popup_test_button_close'] = 'Close';
 
-$lang['executions_edit_flash_msg_update_execute'] = 'The test execution has been succesfully updated.';
+$lang['executions_edit_flash_msg_update'] = 'The test execution has been succesfully updated.';
+
+$lang['executions_edit_flash_msg_delete'] = 'The test execution has been succesfully deleted.';
 

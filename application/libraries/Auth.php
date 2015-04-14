@@ -115,6 +115,8 @@ class Auth {
             //executions
             case 'executions_execute' :
             case 'executions_edit' :
+            case 'executions_view' :
+            case 'executions_delete' :
             case 'executions_executions' :
                 return true;
                 break;

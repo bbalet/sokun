@@ -45,23 +45,60 @@ class Executions extends CI_Controller {
     }
     
     /**
-     * Edit a test execution
+     * Delete a test execution
      * @param int $campaign Identifier of a campaign
-     * @param int $testexecution Test in a campaign (and not test.id)
+     * @param int $testinstance Identifier of a test in a campaign
+     * @param int $testexecution Identifier of the test execution
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function executions($campaign, $test) {
+    public function delete($campaign, $testinstance, $testexecution) {
+        $this->auth->check_is_granted('executions_delete');
+        //$data['test'] = $this->executions_model->get_test_from_execution($testexecution);
+        $this->executions_model->delete_execution($testexecution);
+        $this->session->set_flashdata('msg', lang('executions_edit_flash_msg_delete'));
+        redirect('campaigns/' . $campaign . '/tests/' . $testinstance . '/executions');
+    }
+    
+    /**
+     * Edit a test execution
+     * @param int $campaign Identifier of a campaign
+     * @param int $testinstance Test in a campaign (and not test.id)
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function executions($campaign, $testinstance) {
         $this->auth->check_is_granted('executions_executions');
         $data = getUserContext($this);
-        $data['test'] = $this->executions_model->get_test_from_instance($test);
+        $data['test'] = $this->executions_model->get_test_from_instance($testinstance);
+        $data['testinstance'] = $testinstance;
         $data['campaign'] = $campaign;
-        $data['executions'] = $this->executions_model->get_executions($test);
+        $data['executions'] = $this->executions_model->get_executions($testinstance);
         $data['title'] = lang('executions_index_title');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('executions/executions', $data);
         $this->load->view('templates/footer');   
+    }
+    
+    /**
+     * View a test execution
+     * @param int $campaign Identifier of a campaign
+     * @param int $testinstance Identifier of a test in a campaign
+     * @param int $testexecution Test in a campaign (and not test.id)
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function view($campaign, $testinstance, $testexecution) {
+        $this->auth->check_is_granted('executions_view');
+        $data = getUserContext($this);
+        $data['campaign'] = $campaign;
+        $data['testinstance'] = $testinstance;
+        $data['test'] = $this->executions_model->get_tests($testexecution);
+        $data['steps'] = $this->executions_model->get_steps($testexecution);
+        $data['title'] = lang('executions_view_title');
+        $this->load->view('templates/header', $data);
+        $this->load->view('menu/index', $data);
+        $this->load->view('executions/view', $data);
+        $this->load->view('templates/footer');
     }
     
     /**
@@ -90,8 +127,11 @@ class Executions extends CI_Controller {
             $this->load->view('executions/edit', $data);
             $this->load->view('templates/footer');
         } else {
-            $this->tests_model->update_tests($id);
-            $this->session->set_flashdata('msg', lang('executions_edit_flash_msg_update_execute'));
+            //Update the global status of the test
+            $this->executions_model->update_status($testexecution);
+            //Update all steps
+            $this->executions_model->update_steps();
+            $this->session->set_flashdata('msg', lang('executions_edit_flash_msg_update'));
             redirect('campaigns/' . $campaign . '/tests');
         }
     }

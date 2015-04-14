@@ -66,6 +66,7 @@ $lang['campaigns_tests_thead_tip_execute'] = 'execute';
 $lang['campaigns_tests_thead_tip_executions'] = 'exécutions';
 $lang['campaigns_tests_thead_id'] = 'ID';
 $lang['campaigns_tests_thead_name'] = 'Nom';
+$lang['campaigns_tests_thead_status'] = 'Statut';
 $lang['campaigns_tests_thead_description'] = 'Description';
 $lang['campaigns_tests_button_back'] = 'Retour à la liste des campagnes';
 $lang['campaigns_tests_button_export'] = 'Exporter cette liste';

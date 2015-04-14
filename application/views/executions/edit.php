@@ -39,7 +39,7 @@
 <div class="row-fluid"><div class="col-md-12">&nbsp;</div></div>
 
 <?php $attributes = array('id' => 'frmExecutionForm', 'class' => 'form-horizontal');
-echo form_open('campaings/' . $campaign . '/executions' . $testexecution, $attributes) ?>
+echo form_open('campaigns/' . $campaign . '/executions/' . $testexecution . '/edit', $attributes) ?>
 
 <div class="row-fluid">
     <div class="col-md-2">
@@ -50,10 +50,10 @@ echo form_open('campaings/' . $campaign . '/executions' . $testexecution, $attri
             <label for="teststatus" class="col-sm-2 control-label"><?php echo lang('executions_edit_field_test_status');?></label>
             <div class="col-sm-10">
                 <select name="teststatus" class="form-control">
-                    <option value='1'><?php echo lang('Not Run');?></option>
-                    <option value='2'><?php echo lang('Passed');?></option>
-                    <option value='3'><?php echo lang('Failed');?></option>
-                    <option value='4'><?php echo lang('N/A');?></option>
+                    <option value='1' <?php echo $test['status']==1?'selected':'';?>><?php echo lang('Not Run');?></option>
+                    <option value='2' <?php echo $test['status']==2?'selected':'';?>><?php echo lang('Passed');?></option>
+                    <option value='3' <?php echo $test['status']==3?'selected':'';?>><?php echo lang('Failed');?></option>
+                    <option value='4' <?php echo $test['status']==4?'selected':'';?>><?php echo lang('N/A');?></option>
                 </select>
             </div>
         </div>
@@ -76,27 +76,31 @@ echo form_open('campaings/' . $campaign . '/executions' . $testexecution, $attri
                 </tr>
             </thead>
             <tbody>
-        <?php foreach ($steps as $step): ?>
-            <tr data-id="<?php echo $step['id'] ?>">
-                <td data-order="<?php echo $step['ord']; ?>">&nbsp;
-                        <?php echo $step['ord']; ?>
-                </td>
+        <?php 
+            $nbSteps = 0;
+            foreach ($steps as $step):
+                $nbSteps++;
+                ?>
+            <tr>
+                <input type="hidden" name="id_<?php echo $nbSteps; ?>" value="<?php echo $step['id']; ?>" />
+                <td><?php echo $step['ord']; ?></td>
                 <td><?php echo $step['name'] ?></td>
                 <td><?php echo $step['action'] ?></td>
                 <td><?php echo $step['expected'] ?></td>
                 <td>
-                    <select class="form-control" name="status_<?php echo $step['id'] ?>">
-                        <option value='1'><?php echo lang('Not Run');?></option>
-                        <option value='2'><?php echo lang('Passed');?></option>
-                        <option value='3'><?php echo lang('Failed');?></option>
-                        <option value='4'><?php echo lang('N/A');?></option>
+                    <select class="form-control" name="status_<?php echo $nbSteps; ?>">
+                        <option value='1' <?php echo $step['status']==1?'selected':'';?>><?php echo lang('Not Run');?></option>
+                        <option value='2' <?php echo $step['status']==2?'selected':'';?>><?php echo lang('Passed');?></option>
+                        <option value='3' <?php echo $step['status']==3?'selected':'';?>><?php echo lang('Failed');?></option>
+                        <option value='4' <?php echo $step['status']==4?'selected':'';?>><?php echo lang('N/A');?></option>
                     </select>
                 </td>
-                <td><textarea class="ckeditor" name="actual_<?php echo $step['id'] ?>"></textarea></td>
+                <td><textarea class="ckeditor" name="actual_<?php echo $nbSteps; ?>"><?php echo $step['actual'] ?></textarea></td>
             </tr>
         <?php endforeach ?>
                 </tbody>
         </table>
+        <input type="hidden" name="steps" value="<?php echo $nbSteps; ?>" />
 </form>
 
 <!-- Test description -->
@@ -122,8 +126,6 @@ echo form_open('campaings/' . $campaign . '/executions' . $testexecution, $attri
 
 <div class="row"> <div class="col-md-12">&nbsp;</div></div>
 
-<link href="<?php echo base_url();?>assets/datatable/css/jquery.dataTables.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url();?>assets/datatable/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/ckeditor/skins/moono/editor.css">
 <link rel="stylesheet" href="<?php echo base_url();?>assets/ckeditor/skins/moono/dialog.css">

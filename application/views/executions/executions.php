@@ -45,7 +45,12 @@ $this->lang->load('datatable', $language);?>
                     <?php echo $test['id'] ?>
                     &nbsp;
                     <div class="pull-right">
+                        <a href="<?php echo base_url();?>campaigns/<?php echo $campaign; ?>/tests/<?php echo $testinstance; ?>/executions/<?php echo $execution['id'] ?>/view" title="<?php echo lang('executions_index_thead_tip_view');?>"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        &nbsp;
+
                         <a href="<?php echo base_url();?>campaigns/<?php echo $campaign; ?>/executions/<?php echo $execution['id'] ?>/edit?source=campaigns/<?php echo $campaign; ?>/tests/<?php echo $test['id'];?>/executions" title="<?php echo lang('executions_index_thead_tip_edit');?>"><span class="glyphicon glyphicon-pencil"></span></a>
+                        &nbsp;
+                        <a href="#" class="confirm-delete" data-id="<?php echo $execution['id'] ?>" title="<?php echo lang('executions_index_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
                     </div>
                 </td>
                 <td><?php echo $executiondate; ?></td>
@@ -69,6 +74,7 @@ $this->lang->load('datatable', $language);?>
 
 <link href="<?php echo base_url();?>assets/datatable/css/jquery.dataTables.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
 $(function () {
     //Transform the HTML table
@@ -97,5 +103,16 @@ $(function () {
                 }
             }
         });
+        
+    bootbox.setDefaults({locale: "<?php echo $language_code;?>"});
+    
+    $('.confirm-delete').click(function() {
+        var id = $(this).data('id');
+        bootbox.confirm("<?php echo lang('global_msg_delete_confirmation');?>", function(result) {
+            if (result) {
+                document.location = '<?php echo base_url();?>campaigns/<?php echo $campaign; ?>/tests/<?php echo $testinstance; ?>/executions/' + id + '/delete';
+            }
+        });
+    });
 });
 </script>

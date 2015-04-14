@@ -101,6 +101,7 @@ $(document).ready(function() {
             }
         });
         
+    bootbox.setDefaults({locale: "<?php echo $language_code;?>"});
     $('.confirm-delete').click(function() {
         var id = $(this).data('id');
         bootbox.confirm("<?php echo lang('global_msg_delete_confirmation');?>", function(result) {

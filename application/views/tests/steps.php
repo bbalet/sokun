@@ -248,6 +248,8 @@ $(document).ready(function() {
         document.location = '<?php echo base_url();?>tests/<?php echo $test['id'] ?>/steps/' + id + '/duplicate';
     });
 
+    bootbox.setDefaults({locale: "<?php echo $language_code;?>"});
+    
     //Delete a step
     $('.confirm-delete').click(function() {
         var id = $(this).data('id');

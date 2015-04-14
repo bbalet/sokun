@@ -30,12 +30,13 @@ $this->lang->load('global', $language);?>
             <thead>
                 <tr>
                     <th><?php echo lang('campaigns_tests_thead_id');?></th>
-                    <th><?php echo lang('campaigns_index_thead_name');?></th>
+                    <th><?php echo lang('campaigns_tests_thead_name');?></th>
+                    <th><?php echo lang('campaigns_tests_thead_status');?></th>
                     <th><?php echo lang('campaigns_tests_thead_description');?></th>
                 </tr>
             </thead>
             <tbody>
-        <?php foreach ($tests as $test):?>
+        <?php foreach ($tests as $test): ?>
             <tr>
                 <td data-order="<?php echo $test['assoc_id']; ?>">
                     <?php echo $test['assoc_id'] ?>
@@ -51,6 +52,7 @@ $this->lang->load('global', $language);?>
                     </div>
                 </td>
                 <td>(<?php echo $test['id'] ?>) <?php echo $test['name'] ?></td>
+                <td><?php echo lang($test['status']); ?></td>
                 <td><?php echo $test['description']; ?></td>
             </tr>
         <?php endforeach ?>
@@ -102,7 +104,6 @@ $this->lang->load('global', $language);?>
 
 <link href="<?php echo base_url();?>assets/datatable/css/jquery.dataTables.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
 $(function () {
     //Transform the HTML table

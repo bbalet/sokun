@@ -100,7 +100,9 @@ $route['campaigns/calfeed'] = 'campaigns/calfeed';
 //executions
 $route['campaigns/(:num)/tests/(:num)/execute'] = 'executions/execute/$1/$2';
 $route['campaigns/(:num)/tests/(:num)/executions'] = 'executions/executions/$1/$2';
+$route['campaigns/(:num)/tests/(:num)/executions/(:num)/view'] = 'executions/view/$1/$2/$3';
 $route['campaigns/(:num)/executions/(:num)/edit'] = 'executions/edit/$1/$2';
+$route['campaigns/(:num)/tests/(:num)/executions/(:num)/delete'] = 'executions/delete/$1/$2/$3';
 
 //REST API
 $route['api/tests'] = 'api/getTests';

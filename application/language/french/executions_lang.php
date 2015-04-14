@@ -22,11 +22,26 @@ $lang['executions_index_thead_datetime'] = 'Date d\'exécution';
 $lang['executions_index_thead_executed_by'] = 'Exécuté par';
 $lang['executions_index_thead_status'] = 'Statut';
 $lang['executions_index_thead_tip_edit'] = 'modifier';
+$lang['executions_index_thead_tip_view'] = 'voir';
+$lang['executions_index_thead_tip_delete'] = 'supprimer';
 $lang['executions_index_button_back'] = 'Retour aux tests';
+
+$lang['executions_view_title'] = 'Exécutions d\'une fiche de test';
+$lang['executions_view_field_test_status'] = 'Statut du test';
+$lang['executions_view_thead_order'] = 'N°';
+$lang['executions_view_thead_name'] = 'Nom';
+$lang['executions_view_thead_action'] = 'Action';
+$lang['executions_view_thead_expected'] = 'Résultat attendu';
+$lang['executions_view_thead_actual'] = 'Résult obtenu';
+$lang['executions_view_thead_status'] = 'Statut d\'exécution';
+$lang['executions_view_button_back'] = 'Retour aux exécutions';
+$lang['executions_view_button_description'] = 'Description';
+$lang['executions_view_popup_test_description_title'] = 'Description de la fiche de test';
+$lang['executions_view_popup_test_button_close'] = 'Fermer';
 
 $lang['executions_edit_title'] = 'Exécutions d\'une fiche de test';
 $lang['executions_edit_field_test_status'] = 'Statut du test';
-$lang['executions_edit_thead_order'] = '#';
+$lang['executions_edit_thead_order'] = 'N°';
 $lang['executions_edit_thead_name'] = 'Nom';
 $lang['executions_edit_thead_action'] = 'Action';
 $lang['executions_edit_thead_expected'] = 'Résultat attendu';
@@ -38,5 +53,6 @@ $lang['executions_edit_button_description'] = 'Description';
 $lang['executions_edit_popup_test_description_title'] = 'Description de la fiche de test';
 $lang['executions_edit_popup_test_button_close'] = 'Fermer';
 
-$lang['executions_edit_flash_msg_update_execute'] = 'L\'exécution du test a été mise à jour avec succès.';
+$lang['executions_edit_flash_msg_update'] = 'L\'exécution du test a été mise à jour avec succès.';
 
+$lang['executions_edit_flash_msg_delete'] = 'L\'exécution du test a été supprimée avec succès.';
