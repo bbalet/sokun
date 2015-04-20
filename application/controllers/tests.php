@@ -55,7 +55,6 @@ class Tests extends CI_Controller {
         $this->auth->check_is_granted('tests_select');
         $data = getUserContext($this);
         $data['tests'] = $this->tests_model->get_tests();
-        $data['title'] = lang('tests_select_title');
         $this->load->view('tests/select', $data);
     }
     

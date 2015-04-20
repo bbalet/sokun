@@ -50,7 +50,7 @@ $lang['campaigns_create_button_cancel'] = 'Cancel';
 $lang['campaigns_create_button_create'] = 'Create';
 $lang['campaigns_create_flash_msg_success'] = 'The campaign has been succesfully created.';
 
-$lang['campaigns_edit_title'] = 'Update a campaign';
+$lang['campaigns_edit_title'] = 'Edit a campaign';
 $lang['campaigns_edit_field_name'] = 'Name';
 $lang['campaigns_edit_field_start_date'] = 'Start Date';
 $lang['campaigns_edit_field_end_date'] = 'End Date';

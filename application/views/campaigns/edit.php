@@ -38,14 +38,14 @@
         <div class="form-group">
             <label for="startdate" class="col-sm-2 control-label"><?php echo lang('campaigns_edit_field_start_date');?></label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="viz_startdate" id="viz_startdate" placeholder="<?php echo lang('campaigns_edit_field_start_date');?>" value="<?php echo $campaign['startdate'] ?>" />
+                <input type="text" class="form-control" name="viz_startdate" id="viz_startdate" placeholder="<?php echo lang('campaigns_edit_field_start_date');?>" value="<?php $date = new DateTime($campaign['startdate']); echo $date->format(lang('global_date_format'));?>" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="viz_enddate" class="col-sm-2 control-label"><?php echo lang('campaigns_edit_field_end_date');?></label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="viz_enddate" id="viz_enddate" placeholder="<?php echo lang('campaigns_edit_field_end_date');?>" value="<?php echo $campaign['enddate'] ?>" />
+                <input type="text" class="form-control" name="viz_enddate" id="viz_enddate" placeholder="<?php echo lang('campaigns_edit_field_end_date');?>" value="<?php $date = new DateTime($campaign['startdate']); echo $date->format(lang('global_date_format'));?>" />
             </div>
         </div>
         

@@ -42,6 +42,10 @@ $lang['tests_edit_button_update'] = 'Modifier';
 $lang['tests_edit_button_steps'] = 'Étapes';
 $lang['tests_edit_flash_msg_success'] = 'Le test a été modifié avec succès.';
 
+$lang['tests_select_thead_id'] = 'N°';
+$lang['tests_select_thead_name'] = 'Nom';
+$lang['tests_select_thead_description'] = 'Description';
+
 $lang['tests_export_title'] = 'Fiches de test';
 $lang['tests_export_thead_id'] = 'N°';
 $lang['tests_export_thead_name'] = 'Nom';
