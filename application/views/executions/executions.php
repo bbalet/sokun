@@ -41,7 +41,7 @@ $this->lang->load('datatable', $language);?>
                 $executiondate = $date->format(lang('global_datetime_format'));
             ?>
             <tr>
-                <td data-order="<?php echo $tmpDate; ?>">
+                <td>
                     <?php echo $test['id'] ?>
                     &nbsp;
                     <div class="pull-right">
@@ -53,7 +53,7 @@ $this->lang->load('datatable', $language);?>
                         <a href="#" class="confirm-delete" data-id="<?php echo $execution['id'] ?>" title="<?php echo lang('executions_index_thead_tip_delete');?>"><span class="glyphicon glyphicon-trash"></span></a>
                     </div>
                 </td>
-                <td><?php echo $executiondate; ?></td>
+                <td data-order="<?php echo $tmpDate; ?>"><?php echo $executiondate; ?></td>
                 <td><?php echo $execution['executed_by']; ?></td>
                 <td><?php echo lang($execution['status_name']); ?></td>
             </tr>

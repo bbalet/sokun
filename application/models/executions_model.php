@@ -84,13 +84,13 @@ class Executions_model extends CI_Model {
         $this->db->select('stepsexecution.*');
         $this->db->select('status.name as status_name');
         $this->db->join('status', 'stepsexecution.status = status.id');
-        $query = $this->db->get_where('stepsexecution', array('testexecution' => $testexecution));
         $this->db->order_by('ord', 'asc');
+        $query = $this->db->get_where('stepsexecution', array('testexecution' => $testexecution));
         return $query->result_array();
     }
     
     /**
-     * Get the list of executions of a test in a campaing
+     * Get the list of executions of a test in a campaign
      * @param int $id id of a test in a campaign
      * @return array record of tests
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -99,11 +99,11 @@ class Executions_model extends CI_Model {
         $this->db->select('testexecution.*');
         $this->db->select('status.name as status_name');
         $this->db->select('CONCAT_WS(\' \', users.firstname, users.lastname) as executed_by', FALSE);
-        $this->db->order_by('executiondate', 'desc');
         $this->db->join('campaigntests', 'testexecution.campaigntest = campaigntests.id');
         $this->db->join('status', 'testexecution.status = status.id');
         $this->db->join('users', 'users.id = testexecution.executed_by');
         $this->db->where('campaigntests.id', $testinstance);
+        $this->db->order_by('executiondate', 'desc');
         $query = $this->db->get('testexecution');
         return $query->result_array();
     }
@@ -189,27 +189,24 @@ class Executions_model extends CI_Model {
     }
     
     /**
-     * Get the latest execution status of a test
-     * @param int $id test identifier
+     * Get the latest execution status of a test. Note that:
+     *  - This function works with all tests wathever the campaign they belong to
+     *  - The test/step status is never NULL (it has a default value of 1 / Not Run).
+     *  - The test status has a priority over the step status.
+     *  - We get the latest execution of a test in order to return its status (even not run).
+     * @param int $id test in campaign identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function last_execution_status($id) {
-        //IF the test was never run => 'Not run'
-        //ELSE
-        //    Two possibilities :
-        //     - an execution status was set on the test instance -> it has priority (testexecution)
-        //     - Look the different statuses set on each steps (stepsexecution),
-        //           if one has failed all test failed
-        //     default status is 'N/A' for not available
-        //FI
-        
         $this->db->select('test_status.name as test_status_name');
-        $this->db->select('step_status.name as step_status_name');
+        //$this->db->select('step_status.name as step_status_name');
         $this->db->join('stepsexecution', 'stepsexecution.testexecution = testexecution.id', 'left');
         $this->db->join('status test_status', 'testexecution.status = test_status.id', 'left');
-        $this->db->join('status step_status', 'stepsexecution.status = step_status.id', 'left');
+        //$this->db->join('status step_status', 'stepsexecution.status = step_status.id', 'left');
         $query = $this->db->get('testexecution', array('id' => $id));
+        echo var_dump($str = $this->db->last_query());
         $result = $query->result_array();
+        echo var_dump($result);
         $status = 'N/A';
         if (count($result) > 0) {
             foreach ($result as $row) {
@@ -231,5 +228,20 @@ class Executions_model extends CI_Model {
         return $status;
     }
     
-    
+    /**
+     * Get the latest execution status of a test in a campaign. Note that:
+     *  - The test/step status is never NULL (it has a default value of 1 / Not Run).
+     *  - The test status has a priority over the step status.
+     *  - We get the latest execution of a test in order to return its status (even not run).
+     * @param int $id test in campaign identifier
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function last_test_execution_status($testinstance) {
+        $this->db->select('MAX(executiondate)', FALSE);
+        $this->db->select('test_status.name as test_status_name');
+        $this->db->join('status test_status', 'testexecution.status = test_status.id', 'left');
+        $query = $this->db->get_where('testexecution', array('campaigntest' => $testinstance));
+        $result = $query->row_array();
+        return $result['test_status_name'];
+    }
 }

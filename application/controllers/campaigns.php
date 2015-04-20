@@ -133,7 +133,7 @@ class Campaigns extends CI_Controller {
         //Get latest execution status for each test
         $this->load->model('executions_model');
         for ($ii=0; $ii<count($data['tests']); $ii++) {
-            $data['tests'][$ii]['status'] = $this->executions_model->last_execution_status($data['tests'][$ii]['id']);
+            $data['tests'][$ii]['status'] = $this->executions_model->last_test_execution_status($data['tests'][$ii]['assoc_id']);
         }
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, true);
         $this->load->view('templates/header', $data);
